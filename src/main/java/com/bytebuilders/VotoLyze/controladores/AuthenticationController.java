@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthenticationController {
+
     @Autowired
     TokenService tokenService;
 
@@ -42,7 +43,7 @@ public class AuthenticationController {
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
         var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(userPassword);
-        
+
         var token = tokenService.generateToken((Eleitor) auth.getPrincipal());
 
         return ResponseEntity.ok(new LoginResponseDTO(token));
@@ -50,6 +51,8 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO registerDTO) {
+        System.out.println(registerDTO);
+
         if (eleitoresRepository.findByEmail(registerDTO.login()) != null) {
             return ResponseEntity.badRequest().build();
         }
@@ -67,7 +70,6 @@ public class AuthenticationController {
 
         //HttpHeaders responseHeaders = new HttpHeaders();
         //responseHeaders.set("Access-Control-Allow-Origin", "*");
-
         return ResponseEntity.ok().build();
     }
 

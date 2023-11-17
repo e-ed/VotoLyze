@@ -20,8 +20,8 @@ public class SecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-                .csrf(csrf -> csrf.disable())
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                //.csrf(csrf -> csrf.disable())
+                //.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(
                         authorizeConfig -> {
                             //authorizeConfig.requestMatchers("/public").permitAll();
@@ -29,6 +29,8 @@ public class SecurityConfig {
                             authorizeConfig.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
 
                             authorizeConfig.requestMatchers("/logout").permitAll();
+                            authorizeConfig.requestMatchers("/public").permitAll();
+                             authorizeConfig.requestMatchers("resources/static/ProjectVotoLyze_V6/cadastroEleitor.html").permitAll();
                             authorizeConfig.anyRequest().authenticated();
                         }
                 )

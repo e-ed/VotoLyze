@@ -8,6 +8,6 @@ package com.bytebuilders.VotoLyze.entidades;
  *
  * @author eduardo
  */
-public record RegisterDTO(String login, String password) {
+public record RegisterDTO(String login, String password, String CPF) {
     
 }

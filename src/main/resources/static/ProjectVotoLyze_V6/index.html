@@ -13,10 +13,8 @@
       // Check if accessToken exists
       if (accessToken) {
 
-        console.log("logado")
-        loginLink.innerHTML = `<a href="#"> ${localStorage['userEmail']} </a>`;
+        loginLink.innerHTML = `<a href="painel.html"> ${localStorage['userEmail']} </a>`;
       } else {
-        console.log("nao logado")
 
         loginLink.innerHTML = `<a href="login.html">Login</a>`;
       }

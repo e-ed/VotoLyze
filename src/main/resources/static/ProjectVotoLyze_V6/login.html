@@ -100,7 +100,7 @@
               <li><a href="cadastroEleitor.html">Cadastro Eleitor</a></li>
               <li><a href="cadastroPolitico.html">Cadastro Político</a></li>
             </ul>
-            <li><a href="login.html">Login</a></li> 
+            <li id="loginLink">Carregando</li>
         </ul>
       </nav><!-- .navbar -->
 
@@ -162,7 +162,9 @@
                 <div class="error-message"></div>
                 <div class="sent-message">Login efetuado com sucesso!</div>
               </div>
-              <div hx-post="/auth/login class="text-center"><button onclick="handleSubmit(event)" type="submit">Entrar</button></div>
+              <div class="text-center">
+                <button onclick="handleSubmit(event)" type="submit">Entrar</button>
+              </div>
             </div>
           </div><!-- End Contact Form -->
           </div>

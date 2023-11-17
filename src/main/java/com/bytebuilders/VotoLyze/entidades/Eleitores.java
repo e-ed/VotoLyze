@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Eleitores implements UserDetails {
 
-    private int id;
+    private Integer id;
     private String nome;
     private char sexo;
     private Date dataNascimento;

@@ -15,11 +15,11 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "\"ELEITORES\"")
+@Table(name = "ELEITORES")
 public class Eleitor implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "USR_ID", nullable = false)
     private Integer id;
 

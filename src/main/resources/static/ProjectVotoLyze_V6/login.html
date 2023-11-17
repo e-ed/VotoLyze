@@ -33,6 +33,8 @@
               .then(data => {
                 console.log(data)
                 window.alert('Login com sucesso!');
+                localStorage.setItem('accessToken', data["token"]);
+                console.log(localStorage);
                 window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
               })
               .catch(error => {

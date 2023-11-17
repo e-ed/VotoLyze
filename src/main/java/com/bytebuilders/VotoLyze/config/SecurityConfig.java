@@ -37,6 +37,9 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/public").permitAll()
                 .requestMatchers(HttpMethod.GET, "/ProjectVotoLyze_V6/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/logout").permitAll()
+
+
                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)

@@ -4,7 +4,14 @@
  */
 package com.bytebuilders.VotoLyze.servicos;
 
+import com.bytebuilders.VotoLyze.entidades.Eleitor;
+import com.bytebuilders.VotoLyze.repositorios.EleitoresRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  *
@@ -13,5 +20,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EleitoresService {
+
+    @Autowired
+    EleitoresRepository eleitoresRepository;
+
+    public List<Eleitor> findAll() {
+        return eleitoresRepository.findAll();
+    }
+
+    public Optional<UserDetails> findByEmail(String email) {
+        var e = eleitoresRepository.findByEmail(email);
+        if (eleitoresRepository.findByEmail(email) != null) {
+            return Optional.ofNullable(e);
+        } else {
+            return null;
+        }
+    }
     
 }

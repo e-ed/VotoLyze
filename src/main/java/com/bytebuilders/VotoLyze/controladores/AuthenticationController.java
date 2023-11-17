@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import java.sql.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,8 +38,10 @@ public class AuthenticationController {
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
         var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(userPassword);
+        
+        if (auth.isAuthenticated()) return ResponseEntity.ok().build();
 
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong!");
     }
 
     @PostMapping("/register")
@@ -53,7 +56,7 @@ public class AuthenticationController {
         eleitor.setSenha(encryptedPassword);
         eleitor.setNome("placeholder");
         eleitor.setSexo('m');
-        eleitor.setCPF("00000000000");
+        eleitor.setCPF(registerDTO.CPF());
         eleitor.setDataNascimento(Date.valueOf("1900-01-01"));
 
         eleitoresRepository.save(eleitor);

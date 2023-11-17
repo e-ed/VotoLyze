@@ -1,7 +1,9 @@
 package com.bytebuilders.VotoLyze.controladores;
 
+import com.bytebuilders.VotoLyze.config.TokenService;
 import com.bytebuilders.VotoLyze.entidades.AuthenticationDTO;
 import com.bytebuilders.VotoLyze.entidades.Eleitor;
+import com.bytebuilders.VotoLyze.entidades.LoginResponseDTO;
 import com.bytebuilders.VotoLyze.entidades.RegisterDTO;
 import com.bytebuilders.VotoLyze.repositorios.EleitoresRepository;
 import jakarta.validation.Valid;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("auth")
 @CrossOrigin(origins = "*", maxAge = 3600)
 public class AuthenticationController {
+    @Autowired
+    TokenService tokenService;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -39,9 +43,9 @@ public class AuthenticationController {
         var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(userPassword);
         
-        if (auth.isAuthenticated()) return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((Eleitor) auth.getPrincipal());
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Wrong!");
+        return ResponseEntity.ok(new LoginResponseDTO(token));
     }
 
     @PostMapping("/register")

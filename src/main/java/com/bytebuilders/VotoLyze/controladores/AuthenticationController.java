@@ -6,6 +6,7 @@ import com.bytebuilders.VotoLyze.entidades.Eleitor;
 import com.bytebuilders.VotoLyze.entidades.RegisterDTO;
 import com.bytebuilders.VotoLyze.repositorios.EleitoresRepository;
 import jakarta.validation.Valid;
+import java.sql.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,6 +46,16 @@ public class AuthenticationController {
         
         String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.password());
         Eleitor eleitor = new Eleitor();
+        eleitor.setEmail(registerDTO.login());
+        eleitor.setSenha(encryptedPassword);
+        eleitor.setNome("placeholder");
+        eleitor.setSexo('m');
+        eleitor.setCPF("00000000000");
+        eleitor.setDataNascimento(Date.valueOf("1900-01-01"));
+        
+        eleitoresRepository.save(eleitor);
+        
+        return ResponseEntity.ok().build();
     }
     
 }

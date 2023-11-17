@@ -1,8 +1,8 @@
 package com.bytebuilders.VotoLyze.config;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -25,6 +25,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         authorizeConfig -> {
                             //authorizeConfig.requestMatchers("/public").permitAll();
+                            authorizeConfig.requestMatchers(HttpMethod.POST, "/auth/login").permitAll();
+                            authorizeConfig.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
+
                             authorizeConfig.requestMatchers("/logout").permitAll();
                             authorizeConfig.anyRequest().authenticated();
                         }
@@ -32,12 +35,12 @@ public class SecurityConfig {
                 .formLogin(Customizer.withDefaults())
                 .build();
     }
-    
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
-    
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

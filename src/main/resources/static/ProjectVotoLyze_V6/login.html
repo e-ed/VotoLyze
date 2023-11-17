@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+  <script src="https://unpkg.com/htmx.org@1.9.8" integrity="sha384-rgjA7mptc2ETQqXoYC3/zJvkU7K/aP44Y+z7xQuJiVnB/422P/Ak+F/AqFR7E4Wr" crossorigin="anonymous"></script>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -95,17 +96,6 @@
 
         <div class="row gy-4 justify-content-center">
 
-         <!-- <div class="col-lg-3">
-            <div class="info-item d-flex">
-              <i class="bi bi-geo-alt flex-shrink-0"></i>
-              <div>
-                <h4>Location:</h4>
-                <p>A108 Adam Street, New York, NY 535022</p>
-              </div>
-            </div>
-          </div> End Info Item -->
-
-          
 
         <div class="row justify-content-center mt-4">
 
@@ -115,7 +105,7 @@
                 <div class="form-log">
                   <div>
                   <p>Email: </p>
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Seu Email" required>
+                  <input type="email" class="form-control" name="login" id="email" placeholder="Seu Email" required>
                 </div>
               </div>
                 </div>
@@ -125,27 +115,13 @@
                   <input type="password" class="form-control" name="password" id="password" placeholder="Sua Senha" required>
                 </div>
               </div>
-                                <!-- <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <p>Partido: </p>
-                  <input type="text" class="form-control" name="partido" id="partido" required>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <label for="contactChoice1">Vereador</label>
-                  <input type="radio" name="tipoPol" class="" value="vereador" required>
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <label for="contactChoice1">Prefeito</label>
-                  <input type="radio" name="tipoPol" value="prefeito" required>
-                </div>
-              </div> -->
+
               <div class="my-3">
                 <div class="loading">Um momento...</div>
                 <div class="error-message"></div>
                 <div class="sent-message">Login efetuado com sucesso!</div>
               </div>
-              <div class="text-center"><button type="submit">Entrar</button></div>
+              <div hx-post="/auth/login class="text-center"><button type="submit">Entra2r</button></div>
             </form>
           </div><!-- End Contact Form -->
           </div>

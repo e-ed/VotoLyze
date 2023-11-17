@@ -35,6 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/public").permitAll()
                 .requestMatchers(HttpMethod.GET, "/ProjectVotoLyze_V6/**").permitAll()
                 .anyRequest().authenticated()
                 )

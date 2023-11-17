@@ -2,6 +2,47 @@
 <html lang="en">
 
     <head>
+        <script>
+            function handleSubmit(e) {
+
+                const emailInput = document.getElementById('email').value;
+                const passwordInput = document.getElementById('password').value;
+                const CPF = document.getElementById('CPF').value;
+
+
+                console.log(emailInput)
+                console.log(passwordInput)
+                console.log(CPF)
+
+
+                const data = {
+                    "login": emailInput,
+                    "password": passwordInput,
+                    "CPF": CPF
+                };
+
+                fetch('/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json();
+                        }
+                        throw new Error('Network response was not ok.');
+                    })
+                    .then(data => {
+                        console.log('Registration successful:', data);
+                    })
+                    .catch(error => {
+                        console.error('There was a problem registering the user:', error);
+                    });
+
+            }
+        </script>
         <script src="https://unpkg.com/htmx.org@1.9.8"></script>
         
         <meta charset="utf-8">
@@ -165,7 +206,7 @@
 
                                         <div class="btn-cad">
                                             <div class="text-center">
-                                                <button  type="submit" >
+                                                <button onclick="handleSubmit(event)" type="submit" >
                                                     Cadastrar
                                                 </button>
                                             </div>

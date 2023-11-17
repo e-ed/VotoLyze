@@ -12,8 +12,10 @@ public class AutorizacaoService implements UserDetailsService {
 
     @Autowired
     EleitoresRepository eleitoresRepository;
+    
+    
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return eleitoresRepository.findByEmail(username);
+        return eleitoresRepository.findByUSR_EMAIL(username);
     }
 }

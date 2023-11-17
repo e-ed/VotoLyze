@@ -1,5 +1,11 @@
 package com.bytebuilders.VotoLyze.entidades;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -8,21 +14,38 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
+@Entity
+@Table(name = "ELEITORES")
 public class Eleitores implements UserDetails {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "USR_ID", nullable = false)
     private Integer id;
+
+    @Column(name = "USR_NOME", nullable = false)
     private String nome;
+
+    @Column(name = "USR_SEXO", nullable = false)
     private char sexo;
+
+    @Column(name = "USR_DATA_NASCIMENTO", nullable = false)
     private Date dataNascimento;
+
+    @Column(name = "USR_EMAIL", nullable = false)
     private String email;
-    private String cpf;
+
+    @Column(name = "USER_CPF", nullable = false)
+    private String CPF;
+
+    @Column(name = "USR_SENHA", nullable = false)
     private String senha;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -58,12 +81,12 @@ public class Eleitores implements UserDetails {
         this.email = email;
     }
 
-    public String getCpf() {
-        return cpf;
+    public String getCPF() {
+        return CPF;
     }
 
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
     }
 
     public String getSenha() {
@@ -73,6 +96,8 @@ public class Eleitores implements UserDetails {
     public void setSenha(String senha) {
         this.senha = senha;
     }
+
+   
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -109,5 +134,3 @@ public class Eleitores implements UserDetails {
         return true;
     }
 }
-
-

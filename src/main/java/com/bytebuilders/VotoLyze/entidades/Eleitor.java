@@ -15,7 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "ELEITORES")
+@Table(name = "\"ELEITORES\"")
 public class Eleitor implements UserDetails {
 
     @Id
@@ -35,7 +35,7 @@ public class Eleitor implements UserDetails {
     @Column(name = "USR_EMAIL", nullable = false)
     private String email;
 
-    @Column(name = "USER_CPF", nullable = false)
+    @Column(name = "USR_CPF", nullable = false)
     private String CPF;
 
     @Column(name = "USR_SENHA", nullable = false)

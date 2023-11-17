@@ -35,7 +35,9 @@
                         throw new Error('Network response was not ok.');
                     })
                     .then(data => {
-                        console.log('Registration successful:', data);
+                        console.log(data)
+                        window.alert('Registration successful:');
+                        window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
                     })
                     .catch(error => {
                         console.error('There was a problem registering the user:', error);
@@ -174,7 +176,7 @@
                     <div class="row justify-content-center mt-4">
 
                         <div  class="cad1">
-                            <form role="form" class="php-email-form" >
+                            <form action="" role="form" class="php-email-form" >
                                 <div class="campo1">
                                     <div class="col-md-6 form-group">
                                         <p>Nome: </p>

@@ -66,11 +66,8 @@ public class AuthenticationController {
         eleitor.setCPF(registerDTO.CPF());
         eleitor.setDataNascimento(Date.valueOf("1900-01-01"));
 
-        eleitoresRepository.save(eleitor);
 
-        //HttpHeaders responseHeaders = new HttpHeaders();
-        //responseHeaders.set("Access-Control-Allow-Origin", "*");
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).body( eleitoresRepository.save(eleitor));
     }
 
 }

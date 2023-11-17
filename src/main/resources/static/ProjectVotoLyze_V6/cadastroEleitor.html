@@ -3,6 +3,7 @@
 
     <head>
         <script src="https://unpkg.com/htmx.org@1.9.8"></script>
+        
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
@@ -132,7 +133,7 @@
                     <div class="row justify-content-center mt-4">
 
                         <div class="cad1">
-                            <form role="form" class="php-email-form">
+                            <form role="form" class="php-email-form" >
                                 <div class="campo1">
                                     <div class="col-md-6 form-group">
                                         <p>Nome: </p>
@@ -163,7 +164,11 @@
                                         <input type="text" class="form-control" name="CPF" id="CPF" placeholder="111.111.111-11" required>
 
                                         <div class="btn-cad">
-                                            <div class="text-center"><button hx-post="http://localhost:8080/auth/register"" hx-target="body" type="submit">Cadastrar</button></div>
+                                            <div class="text-center">
+                                                <button hx-ext='json-enc'  hx-post="/auth/register" type="submit" >
+                                                    Cadastrar
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -171,21 +176,6 @@
 
 
 
-                                    <!-- <div class="col-md-6 form-group mt-3 mt-md-0">
-                                      <p>Partido: </p>
-                                      <input type="text" class="form-control" name="partido" id="partido" required>
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="col-md-6 form-group">
-                                      <label for="contactChoice1">Vereador</label>
-                                      <input type="radio" name="tipoPol" class="" value="vereador" required>
-                                    </div>
-                                    <div class="col-md-6 form-group mt-3 mt-md-0">
-                                      <label for="contactChoice1">Prefeito</label>
-                                      <input type="radio" name="tipoPol" value="prefeito" required>
-                                    </div>
-                                  </div> -->
                                     <div class="my-3">
                                         <div class="loading">Um momento...</div>
                                         <div class="error-message"></div>

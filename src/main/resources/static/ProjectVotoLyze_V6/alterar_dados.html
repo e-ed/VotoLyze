@@ -119,6 +119,9 @@
                 .then(updatedData => {
                     console.log('Updated data:', updatedData);
                     // Handle the response after successful update
+                    window.alert("Dados alterados com sucesso!");
+                    window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/painel.html");
+
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);

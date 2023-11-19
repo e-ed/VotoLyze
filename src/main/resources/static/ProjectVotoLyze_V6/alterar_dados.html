@@ -50,7 +50,15 @@
                     // You can process the 'data' here
                     emailInput.value = `${data.email}`;
                     nome.value = `${data.nome}`
-                    sexo.value = `${data.sexo}`;
+
+                    if (data.sexo === 'M') {
+                        let radiobtn = document.getElementById("male");
+                        radiobtn.checked = true;
+                    } else {
+                        let radiobtn = document.getElementById("female");
+                        radiobtn.checked = true;
+                    }
+
                     dataNascimento.value = `${data.dataNascimento}`;
                     CPF.value = `${data.cpf}`
                 })
@@ -88,8 +96,11 @@
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 
+
+
     <!-- Template Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
+
 
 
 </head>
@@ -166,8 +177,26 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <ul>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Sexo:</strong> <input id="sexo" value=""/></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <input id="dataNascimento" value=""/></li>
+                                <li>
+                                    <i class="bi bi-chevron-right"></i>
+                                    <strong>Sexo:</strong>
+                                    <br>
+                                    <ul>
+                                        <li>
+                                            <label for="male">Masculino:</label>
+                                            <input type="radio" id="male" name="gender" value="male">
+                                        </li>
+                                        <li>
+                                            <label for="female">Feminino:</label>
+                                            <input type="radio" id="female" name="gender" value="female">
+                                        </li>
+                                    </ul>
+                                </li>
+
+
+
+
+                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <input type="date" id="dataNascimento" value=""/></li>
                                 <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <input id="emailInput" value=""/></li>
                                 <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input id="CPF" value=""/></li>
 

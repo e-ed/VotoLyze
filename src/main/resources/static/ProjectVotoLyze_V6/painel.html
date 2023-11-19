@@ -107,7 +107,7 @@
 
         function alterarSenha() {
             var element = document.getElementById("alterarSenhaBtn");
-            var newElement = '<br><br><p>Digite a nova senha:</p><input required type="password" id="novaSenha"/><button onclick="alterarSenha2()">Alterar senha</button><br><br>'
+            var newElement = '<br><br><br><p>Digite a nova senha:</p><input class="form-control" required type="password" id="novaSenha"/><br><br><button class="btn btn-dark" onclick="alterarSenha2()">Alterar senha</button><br><br><br><br>'
             element.insertAdjacentHTML( 'afterend', newElement )
         }
 

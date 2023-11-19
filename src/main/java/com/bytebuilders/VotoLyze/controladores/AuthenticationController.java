@@ -61,10 +61,10 @@ public class AuthenticationController {
         Eleitor eleitor = new Eleitor();
         eleitor.setEmail(registerDTO.login());
         eleitor.setSenha(encryptedPassword);
-        eleitor.setNome("placeholder");
-        eleitor.setSexo('m');
+        eleitor.setNome(registerDTO.nome());
+        eleitor.setSexo(registerDTO.sexo().charAt(0));
         eleitor.setCPF(registerDTO.CPF());
-        eleitor.setDataNascimento(Date.valueOf("1900-01-01"));
+        eleitor.setDataNascimento(Date.valueOf(registerDTO.dataNascimento()));
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body( eleitoresRepository.save(eleitor));

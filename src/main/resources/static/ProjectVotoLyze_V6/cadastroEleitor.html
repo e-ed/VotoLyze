@@ -8,17 +8,31 @@
                 const emailInput = document.getElementById('email').value;
                 const passwordInput = document.getElementById('password').value;
                 const CPF = document.getElementById('CPF').value;
+                const sexo = document.getElementById('gender').value;
+                const dataNascimento = document.getElementById('dataNascimento').value;
+                const nome = document.getElementById('nome').value;
 
 
+
+
+
+
+
+                console.log(nome)
                 console.log(emailInput)
                 console.log(passwordInput)
                 console.log(CPF)
+                console.log(sexo)
+                console.log(dataNascimento)
 
 
                 const data = {
                     "login": emailInput,
                     "password": passwordInput,
-                    "CPF": CPF
+                    "CPF": CPF,
+                    "sexo": sexo,
+                    "dataNascimento": dataNascimento,
+                    "nome": nome
                 };
 
                 fetch('/auth/register', {
@@ -36,7 +50,7 @@
                     })
                     .then(data => {
                         console.log(data)
-                        window.alert('Registration successful:');
+                        window.alert('Cadastro realizado com sucesso!');
                         window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
                     })
                     .catch(error => {
@@ -180,7 +194,7 @@
                                 <div class="campo1">
                                     <div class="col-md-6 form-group">
                                         <p>Nome: </p>
-                                        <input type="text" name="name" class="form-control" id="name" placeholder="Seu Nome" required>
+                                        <input type="text" name="nome" class="form-control" id="name" placeholder="Seu Nome" required>
                                     </div>
                                     <div class="col-md-6 form-group mt-3 mt-md-0">
                                         <p>Email: </p>
@@ -194,14 +208,20 @@
                                     </div>
                                     <div class="col-md-6 form-group mt-3 mt-md-0">
                                         <p>Data de Nascimento: </p>
-                                        <input type="date" class="form-control" name="date" id="date" required>
+                                        <input type="date" class="form-control" name="dataNascimento" id="date" required>
                                     </div>
                                 </div>
 
                                 <div class="campo1">
                                     <div class="col-md-6 analises">
-                                        <p>Naturalide: </p>
-                                        <input type="text" class="form-control" name="naturalidade" id="naturalidade" placeholder="Sua Naturalide" required>
+                                        <p>Sexo:</p>
+                                        <label for="male">Masculino:</label>
+                                        <input type="radio" id="male" name="gender" value="male">
+                                        <br>
+                                        <label for="female">Feminino:</label>
+                                        <input type="radio" id="female" name="gender" value="female">
+                                        <br>
+
 
                                         <p>CPF </p>
                                         <input type="text" class="form-control" name="CPF" id="CPF" placeholder="111.111.111-11" required>

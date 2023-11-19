@@ -3,6 +3,10 @@
 
 <head>
     <script>
+        function userLogout() {
+            localStorage.clear();
+            window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
+        }
         document.addEventListener("DOMContentLoaded", function(event) {
 
 
@@ -175,6 +179,8 @@
                                 <button class="btn btn-warning">Alterar senha</button> <br> <br>
                                 <button class="btn btn-danger">Excluir perfil</button> <br> <br>
                                 <button class="btn btn-info"><a style="color: inherit;" href="alterar_dados.html">Alterar dados pessoais</a></button> <br> <br>
+                                <button class="btn btn-light"><a style="color: inherit;" onclick="userLogout()">Logout</a></button> <br> <br>
+
 
 
                             </ul>

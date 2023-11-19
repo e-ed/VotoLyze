@@ -4,11 +4,13 @@
 <head>
     <script>
         let userData = {}
-        document.addEventListener("DOMContentLoaded", function(event) {
+        let oldEmail;
+        document.addEventListener("DOMContentLoaded", function (event) {
             const loginLink = document.getElementById('loginLink');
             const accessToken = localStorage.getItem('accessToken');
 
             const emailInput = document.getElementById('emailInput');
+
             const passwordInput = document.getElementById('password');
             const CPF = document.getElementById('CPF');
             const sexo = document.getElementById('sexo');
@@ -26,15 +28,12 @@
                 loginLink.innerHTML = `<a href="login.html">Login</a>`;
             }
 
-            console.log('http://localhost:8080/eleitor/' + localStorage['userEmail'])
-
 
             const userEmail = localStorage['userEmail']; // Assuming you have the user's email stored in localStorage
             const token = localStorage['accessToken']; // Replace with your actual Bearer token
 
             const headers = new Headers();
             headers.append('Authorization', `Bearer ${token}`);
-
 
 
             fetch(`http://localhost:8080/eleitor/${userEmail}`, {
@@ -52,6 +51,9 @@
                     userData = data;
                     // You can process the 'data' here
                     emailInput.value = `${data.email}`;
+
+                    oldEmail = data.email;
+                    
                     nome.value = `${data.nome}`
 
                     if (data.sexo === 'M') {
@@ -69,7 +71,6 @@
                     console.error('There was a problem with the fetch operation:', error);
                     // Handle errors here
                 });
-
 
 
         });
@@ -120,16 +121,22 @@
                     console.log('Updated data:', updatedData);
                     // Handle the response after successful update
                     window.alert("Dados alterados com sucesso!");
-                    window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/painel.html");
+                    console.log("old: " + oldEmail);
+                    console.log("updated: " + updatedData.email);
+                    console.log(oldEmail !== updatedData.email)
+                    if (oldEmail !== updatedData.email) {
+                        window.alert("E-mail alterado, por favor faça login novamente!")
+                        localStorage.clear();
+                        window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
+                    } else {
+                        window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/painel.html");
+                    }
 
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
                     // Handle errors here
                 });
-
-
-
 
 
         }
@@ -149,7 +156,8 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -159,10 +167,8 @@
     <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 
 
-
     <!-- Template Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
-
 
 
 </head>
@@ -181,15 +187,14 @@
         </a>
 
 
-
-
         <nav id="navbar" class="navbar">
             <ul>
                 <li><a href="index.html" class="active">Início</a></li>
                 <li><a href="sobre.html">Sobre</a></li>
                 <li><a href="prefeitos.html">Prefeitos</a></li>
                 <li><a href="vereadores.html">Vereadores</a></li>
-                <li class="dropdown"><a href="#"><span>Cadastro</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                <li class="dropdown"><a href="#"><span>Cadastro</span> <i
+                        class="bi bi-chevron-down dropdown-indicator"></i></a>
                     <ul>
                         <li><a href="cadastroEleitor.html">Cadastro Eleitor</a></li>
                         <li><a href="cadastroPolitico.html">Cadastro Político</a></li>
@@ -236,7 +241,8 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <ul>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Nome: </strong> <input class="form-control" type="text" id="nome"/></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Nome: </strong> <input
+                                        class="form-control" type="text" id="nome"/></li>
 
                                 <li>
                                     <i class="bi bi-chevron-right"></i>
@@ -253,11 +259,15 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <input class="form-control" type="date" id="dataNascimento" value=""/></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <input class="form-control" id="emailInput" value=""/></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input class="form-control" id="CPF" value=""/></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <input
+                                        class="form-control" type="date" id="dataNascimento" value=""/></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <input
+                                        class="form-control" id="emailInput" value=""/></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input
+                                        class="form-control" id="CPF" value=""/></li>
 
-                                <button class="btn btn-info" onclick="alterarDados()">Enviar</button> <br> <br>
+                                <button class="btn btn-info" onclick="alterarDados()">Enviar</button>
+                                <br> <br>
 
 
                             </ul>

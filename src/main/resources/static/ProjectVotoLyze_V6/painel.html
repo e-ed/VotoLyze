@@ -5,8 +5,11 @@
     <script>
         let userData = {}
         function userLogout() {
-            localStorage.clear();
-            window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
+            var answer = window.confirm("Deseja mesmo fazer logout?");
+            if (answer) {
+                localStorage.clear();
+                window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
+            }
         }
         document.addEventListener("DOMContentLoaded", function(event) {
 

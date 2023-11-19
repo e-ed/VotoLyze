@@ -39,7 +39,7 @@ public class EleitoresService {
     }
 
     public Eleitor findByEmail(String email, int p) {
-        return eleitoresRepository.findByEmail(email, 0);
+        return (Eleitor) eleitoresRepository.findByEmail(email);
     }
 
     @Transactional

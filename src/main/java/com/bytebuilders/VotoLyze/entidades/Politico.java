@@ -14,7 +14,7 @@ import java.util.List;
 public class Politico implements UserDetails {
 
     @OneToOne
-    @Column(name="FK_PARTIDOS_PRT_ID", nullable = false)
+    @PrimaryKeyJoinColumn(name="FK_PARTIDOS_PRT_ID")
     private Partido partido;
 
     @Column(name="PLT_TIPO_CANDIDATURA", nullable = false)

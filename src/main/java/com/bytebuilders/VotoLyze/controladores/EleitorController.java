@@ -41,7 +41,7 @@ public class EleitorController {
         String extractedTokenFromHeader = tokenService.extractToken(authorization);
         String userRequesting = tokenService.getUserIdFromToken(extractedTokenFromHeader);
         Eleitor idFromUserRequesting = eleitoresService.findByEmailIgnoreCase(userRequesting);
-        
+
         if (!Objects.equals(idFromUserRequesting.getId(), id)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ID mismatch for operation");
         }

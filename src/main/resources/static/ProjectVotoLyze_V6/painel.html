@@ -8,6 +8,13 @@
             const loginLink = document.getElementById('loginLink');
             const accessToken = localStorage.getItem('accessToken');
 
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const CPF = document.getElementById('CPF');
+            const sexo = document.getElementById('sexo');
+            const dataNascimento = document.getElementById('dataNascimento');
+            const nome = document.getElementById('nome');
+
             console.log(accessToken)
 
             // Check if accessToken exists
@@ -41,6 +48,11 @@
                     // Work with the JSON data
                     console.log('Data received:', data);
                     // You can process the 'data' here
+                    emailInput.innerHTML = `${data.email}`;
+                    nome.innerHTML = `${data.nome}`
+                    sexo.innerHTML = `${data.sexo}`;
+                    dataNascimento.innerHTML = `${data.dataNascimento}`;
+                    CPF.innerHTML = `${data.CPF}`
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
@@ -149,16 +161,15 @@
                     <img src="assets/img/profile-img.jpg" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-5 content">
-                    <h2>Nome Sobrenome</h2>
+                    <h2 id="nome"></h2>
 
                     <div class="row">
                         <div class="col-lg-8">
                             <ul>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Nome:</strong> <span>13 Maio 2018</span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Sexo:</strong> <span>www.bytebuilders.com</span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <span>+55 19 99879 0378</span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <span>suporte@bytebuilders.com</span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <span>São João da Boa Vista - SP</span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Sexo:</strong> <span id="sexo">www.bytebuilders.com</span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <span id="dataNascimento">+55 19 99879 0378</span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <span id="email">suporte@bytebuilders.com</span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <span id="CPF">São João da Boa Vista - SP</span></li>
 
                                 <button class="btn btn-warning">Alterar senha</button> <br> <br>
                                 <button class="btn btn-danger">Excluir perfil</button> <br> <br>

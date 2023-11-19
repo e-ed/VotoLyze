@@ -24,13 +24,19 @@ public class EleitorController {
     @Autowired
     EleitoresService eleitoresService;
 
-    @PutMapping("{email}")
-    public ResponseEntity<Object> update(@PathVariable String email, @RequestBody @Valid RegisterDTO registerDTO) {
-        Eleitor toBeUpdated = eleitoresService.findByEmail(email, 0);
-        if (toBeUpdated == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody @Valid RegisterDTO registerDTO) {
+        Optional<Eleitor> toBeUpdated = eleitoresService.findById(id);
+        System.out.println(toBeUpdated);
+        if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         var updatedUser = new Eleitor();
-        BeanUtils.copyProperties(registerDTO, updatedUser);
-        updatedUser.setId(toBeUpdated.getId());
+        updatedUser.setEmail(registerDTO.login());
+        updatedUser.setSenha(registerDTO.password());
+        updatedUser.setNome(registerDTO.nome());
+        updatedUser.setSexo(registerDTO.sexo().charAt(0));
+        updatedUser.setCPF(registerDTO.CPF());
+        updatedUser.setDataNascimento(registerDTO.dataNascimento());
+        updatedUser.setId(toBeUpdated.get().getId());
         return ResponseEntity.status(HttpStatus.OK).body( eleitoresService.save(updatedUser) );
 
     }
@@ -38,6 +44,13 @@ public class EleitorController {
     @GetMapping
     public ResponseEntity<List<Eleitor>> findAll() {
         return ResponseEntity.status(HttpStatus.OK).body(eleitoresService.findAll());
+    }
+
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<Object> findById(@PathVariable Integer id) {
+        Optional<Eleitor> eleitor = eleitoresService.findById(id);
+        if (!eleitor.isPresent()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
+        return ResponseEntity.status(HttpStatus.OK).body(eleitor);
     }
 
     @GetMapping("/{email}")

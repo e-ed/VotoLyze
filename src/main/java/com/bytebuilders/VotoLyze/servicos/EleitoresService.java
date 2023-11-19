@@ -38,8 +38,8 @@ public class EleitoresService {
         }
     }
 
-    public Eleitor findByEmail(String email, int p) {
-        return (Eleitor) eleitoresRepository.findByEmail(email);
+    public Optional<Eleitor> findById(Integer id) {
+        return eleitoresRepository.findById(id);
     }
 
     @Transactional

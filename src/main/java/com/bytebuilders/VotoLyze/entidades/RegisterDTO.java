@@ -4,10 +4,12 @@
  */
 package com.bytebuilders.VotoLyze.entidades;
 
+import java.sql.Date;
+
 /**
  *
  * @author eduardo
  */
-public record RegisterDTO(String login, String password, String CPF, String nome, String sexo, String dataNascimento) {
+public record RegisterDTO(String login, String password, String CPF, String nome, String sexo, Date dataNascimento) {
     
 }

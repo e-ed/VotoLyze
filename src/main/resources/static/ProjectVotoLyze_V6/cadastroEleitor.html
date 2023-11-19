@@ -8,7 +8,7 @@
                 const emailInput = document.getElementById('email').value;
                 const passwordInput = document.getElementById('password').value;
                 const CPF = document.getElementById('CPF').value;
-                const sexo = document.getElementById('gender').value;
+                const sexo = document.querySelector('input[name="gender"]:checked').value;
                 const dataNascimento = document.getElementById('dataNascimento').value;
                 const nome = document.getElementById('nome').value;
 
@@ -194,7 +194,7 @@
                                 <div class="campo1">
                                     <div class="col-md-6 form-group">
                                         <p>Nome: </p>
-                                        <input type="text" name="nome" class="form-control" id="name" placeholder="Seu Nome" required>
+                                        <input type="text" name="nome" class="form-control" id="nome" placeholder="Seu Nome" required>
                                     </div>
                                     <div class="col-md-6 form-group mt-3 mt-md-0">
                                         <p>Email: </p>
@@ -208,7 +208,7 @@
                                     </div>
                                     <div class="col-md-6 form-group mt-3 mt-md-0">
                                         <p>Data de Nascimento: </p>
-                                        <input type="date" class="form-control" name="dataNascimento" id="date" required>
+                                        <input type="date" class="form-control" name="dataNascimento" id="dataNascimento" required>
                                     </div>
                                 </div>
 

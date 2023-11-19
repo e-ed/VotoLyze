@@ -63,7 +63,7 @@ public class EleitorController {
     }
 
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> delete(@PathVariable Integer id) {
         Optional<Eleitor> toBeDeleted = eleitoresService.findById(id);
         if (!toBeDeleted.isPresent()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
@@ -71,7 +71,7 @@ public class EleitorController {
         return ResponseEntity.status(HttpStatus.OK).body("deleted");
     }
 
-    @PutMapping("updatePassword/${id}")
+    @PutMapping("/updatePassword/{id}")
     public ResponseEntity<Object> updatePassword(@PathVariable Integer id, @RequestBody @Valid RegisterDTO registerDTO) {
         Optional<Eleitor> toBeUpdated = eleitoresService.findById(id);
         if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");

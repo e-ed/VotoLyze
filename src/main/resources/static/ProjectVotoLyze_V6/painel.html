@@ -105,6 +105,57 @@
             }
         }
 
+        function alterarSenha() {
+            var element = document.getElementById("alterarSenhaBtn");
+            var newElement = '<br><br><p>Digite a nova senha:</p><input required type="password" id="novaSenha"/><button onclick="alterarSenha2()">Alterar senha</button><br><br>'
+            element.insertAdjacentHTML( 'afterend', newElement )
+        }
+
+        function alterarSenha2() {
+
+            var answer = window.confirm("Deseja mesmo alterar sua senha?");
+            if (answer) {
+                const accessToken = localStorage.getItem('accessToken');
+
+                const newPasswordData = {
+                    "login": userData.email,
+                    "password": document.getElementById("novaSenha").value
+                }
+
+                console.log(newPasswordData);
+
+                const headers = new Headers();
+                headers.append('Authorization', `Bearer ${accessToken}`);
+                headers.append('Content-Type', 'application/json');
+
+
+                fetch(`http://localhost:8080/eleitor/updatePassword/${userData.id}`, {
+                    method: 'PUT',
+                    headers: headers,
+                    body: JSON.stringify(newPasswordData)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        window.alert('Senha alterada com sucesso!');
+                        // Handle the success response after deletion
+                        window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/painel.html");
+
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                        // Handle errors here
+                    });
+
+
+
+            }
+            else {
+                console.log("nao alterar")
+            }
+        }
+
 
 
 
@@ -213,7 +264,7 @@
                                 <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <span id="email">/span></li>
                                 <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <span id="CPF"></span></li>
 
-                                <button class="btn btn-warning">Alterar senha</button> <br> <br>
+                                <button id="alterarSenhaBtn" class="btn btn-warning" onclick="alterarSenha()">Alterar senha</button> <br> <br>
                                 <button class="btn btn-danger" onclick="excluirPerfil()">Excluir perfil</button> <br> <br>
                                 <button class="btn btn-info"><a style="color: inherit;" href="alterar_dados.html">Alterar dados pessoais</a></button> <br> <br>
                                 <button class="btn btn-light"><a style="color: inherit;" onclick="userLogout()">Logout</a></button> <br> <br>

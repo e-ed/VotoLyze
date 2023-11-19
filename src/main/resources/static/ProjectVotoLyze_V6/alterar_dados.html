@@ -3,8 +3,8 @@
 
 <head>
     <script>
+        let userData = {}
         document.addEventListener("DOMContentLoaded", function(event) {
-            let userData = {}
             const loginLink = document.getElementById('loginLink');
             const accessToken = localStorage.getItem('accessToken');
 
@@ -34,6 +34,8 @@
 
             const headers = new Headers();
             headers.append('Authorization', `Bearer ${token}`);
+
+
 
             fetch(`http://localhost:8080/eleitor/${userEmail}`, {
                 headers: headers
@@ -88,7 +90,7 @@
             console.log(dataNascimento)
 
 
-            const data = {
+            const updatedUserData = {
                 "login": emailInput,
                 "CPF": CPF,
                 "sexo": sexo,
@@ -100,27 +102,31 @@
 
             const headers = new Headers();
             headers.append('Authorization', `Bearer ${token}`);
-            fetch(`eleitor/${userData.id}}`, {
+            headers.append('Content-Type', 'application/json');
+
+
+            fetch(`http://localhost:8080/eleitor/${userData.id}`, {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+                headers: headers,
+                body: JSON.stringify(updatedUserData)
             })
                 .then(response => {
-                    if (response.ok) {
-                        return response.json();
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
                     }
-                    throw new Error('Network response was not ok.');
+                    return response.json();
                 })
-                .then(data => {
-                    console.log(data)
-                    window.alert('Dados alterados com sucesso!');
-                    window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/painel.html");
+                .then(updatedData => {
+                    console.log('Updated data:', updatedData);
+                    // Handle the response after successful update
                 })
                 .catch(error => {
-                    console.error('There was a problem registering the user:', error);
+                    console.error('There was a problem with the fetch operation:', error);
+                    // Handle errors here
                 });
+
+
+
 
 
         }

@@ -31,7 +31,7 @@ public class EleitorController {
         if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         var updatedUser = new Eleitor();
         updatedUser.setEmail(registerDTO.login());
-        updatedUser.setSenha(registerDTO.password());
+        updatedUser.setSenha(toBeUpdated.get().getSenha());
         updatedUser.setNome(registerDTO.nome());
         updatedUser.setSexo(registerDTO.sexo().charAt(0));
         updatedUser.setCPF(registerDTO.CPF());

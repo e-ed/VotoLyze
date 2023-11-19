@@ -19,6 +19,36 @@
                 loginLink.innerHTML = `<a href="login.html">Login</a>`;
             }
 
+            console.log('http://localhost:8080/eleitor/' + localStorage['userEmail'])
+
+
+            const userEmail = localStorage['userEmail']; // Assuming you have the user's email stored in localStorage
+            const token = localStorage['accessToken']; // Replace with your actual Bearer token
+
+            const headers = new Headers();
+            headers.append('Authorization', `Bearer ${token}`);
+
+            fetch(`http://localhost:8080/eleitor/${userEmail}`, {
+                headers: headers
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Work with the JSON data
+                    console.log('Data received:', data);
+                    // You can process the 'data' here
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    // Handle errors here
+                });
+
+
+
         });
 
 

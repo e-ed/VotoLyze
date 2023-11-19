@@ -3,6 +3,9 @@
 
 <head>
     <script>
+
+
+
         let userData = {}
         let oldEmail;
         document.addEventListener("DOMContentLoaded", function (event) {
@@ -71,6 +74,13 @@
                     console.error('There was a problem with the fetch operation:', error);
                     // Handle errors here
                 });
+
+
+            const myForm = document.getElementById("myForm");
+            myForm.addEventListener("submit", (event) => {
+                event.preventDefault();
+                alterarDados();
+            });
 
 
         });
@@ -296,6 +306,7 @@
 
                     <div class="row">
                         <div class="col-lg-8">
+                            <form id="myForm">
 
                             <ul>
                                 <li><i class="bi bi-chevron-right"></i> <strong>Nome: </strong> <input
@@ -332,13 +343,13 @@
                                         id="CPF"
                                         value=""/></li>
                                 <br>
-                                <button class="btn btn-enviar btn-lg" onclick="alterarDados()">Enviar</button>
+                                <button type="submit" class="btn btn-enviar btn-lg" >Enviar</button>
 
                                 <br> <br>
 
 
                             </ul>
-
+                            </form>
                         </div>
 
                     </div>

@@ -38,7 +38,7 @@ public class EleitorController {
         updatedUser.setCPF(registerDTO.CPF());
         updatedUser.setDataNascimento(Date.valueOf(registerDTO.dataNascimento().toLocalDate().plusDays(1)));
         updatedUser.setId(toBeUpdated.get().getId());
-        return ResponseEntity.status(HttpStatus.OK).body( eleitoresService.save(updatedUser) );
+        return ResponseEntity.status(HttpStatus.OK).body(eleitoresService.save(updatedUser));
 
     }
 
@@ -59,5 +59,14 @@ public class EleitorController {
         Optional<UserDetails> eleitor = eleitoresService.findByEmail(email);
         if (!eleitor.isPresent()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         return ResponseEntity.status(HttpStatus.OK).body(eleitor);
+    }
+
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Object> delete(@PathVariable Integer id) {
+        Optional<Eleitor> toBeDeleted = eleitoresService.findById(id);
+        if (!toBeDeleted.isPresent()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
+        eleitoresService.delete(toBeDeleted.get());
+        return ResponseEntity.status(HttpStatus.OK).body("deleted");
     }
 }

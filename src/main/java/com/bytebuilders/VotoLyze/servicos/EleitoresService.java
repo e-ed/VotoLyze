@@ -46,4 +46,8 @@ public class EleitoresService {
     public Eleitor save(Eleitor eleitor) {
         return eleitoresRepository.save(eleitor);
     }
+
+    public void delete(Eleitor eleitor) {
+        eleitoresRepository.delete(eleitor);
+    }
 }

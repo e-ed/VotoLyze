@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,7 +36,7 @@ public class EleitorController {
         updatedUser.setNome(registerDTO.nome());
         updatedUser.setSexo(registerDTO.sexo().charAt(0));
         updatedUser.setCPF(registerDTO.CPF());
-        updatedUser.setDataNascimento(registerDTO.dataNascimento());
+        updatedUser.setDataNascimento(Date.valueOf(registerDTO.dataNascimento().toLocalDate().plusDays(1)));
         updatedUser.setId(toBeUpdated.get().getId());
         return ResponseEntity.status(HttpStatus.OK).body( eleitoresService.save(updatedUser) );
 

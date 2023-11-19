@@ -64,7 +64,7 @@ public class AuthenticationController {
         eleitor.setNome(registerDTO.nome());
         eleitor.setSexo(registerDTO.sexo().charAt(0));
         eleitor.setCPF(registerDTO.CPF());
-        eleitor.setDataNascimento(registerDTO.dataNascimento());
+        eleitor.setDataNascimento(Date.valueOf(registerDTO.dataNascimento().toLocalDate().plusDays(1)));
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body( eleitoresRepository.save(eleitor));

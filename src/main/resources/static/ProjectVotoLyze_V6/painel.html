@@ -50,10 +50,10 @@
                     console.log('Data received:', data);
                     // You can process the 'data' here
                     emailInput.innerHTML = `${data.email}`;
-                    nome.innerHTML = `${data.nome}`
-                    sexo.innerHTML = `${data.sexo}`;
+                    nome.innerHTML = `${data.nome}`;
+                    sexo.innerHTML = `${data.sexo}` === 'M' ? 'Masculino' : "Feminino";
                     dataNascimento.innerHTML = `${data.dataNascimento}`;
-                    CPF.innerHTML = `${data.cpf}`
+                    CPF.innerHTML = `${data.cpf}`;
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);

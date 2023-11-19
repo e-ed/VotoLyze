@@ -26,13 +26,12 @@ public class EleitorController {
 
     @PutMapping("{email}")
     public ResponseEntity<Object> update(@PathVariable String email, @RequestBody @Valid RegisterDTO registerDTO) {
-        Optional<UserDetails> toBeUpdated = eleitoresService.findByEmail(email);
-        if (!toBeUpdated.isPresent()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
+        Eleitor toBeUpdated = eleitoresService.findByEmail(email, 0);
+        if (toBeUpdated == null) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         var updatedUser = new Eleitor();
         BeanUtils.copyProperties(registerDTO, updatedUser);
-        updatedUser.setId(toBeUpdated.get());
-        updatedUser.setAddedDate(LocalDateTime.now());
-        return ResponseEntity.status(HttpStatus.OK).body( productService.save(updatedUser) );
+        updatedUser.setId(toBeUpdated.getId());
+        return ResponseEntity.status(HttpStatus.OK).body( eleitoresService.save(updatedUser) );
 
     }
 

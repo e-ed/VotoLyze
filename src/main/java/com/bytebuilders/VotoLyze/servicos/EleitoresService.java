@@ -6,6 +6,7 @@ package com.bytebuilders.VotoLyze.servicos;
 
 import com.bytebuilders.VotoLyze.entidades.Eleitor;
 import com.bytebuilders.VotoLyze.repositorios.EleitoresRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -36,5 +37,13 @@ public class EleitoresService {
             return null;
         }
     }
-    
+
+    public Eleitor findByEmail(String email, int p) {
+        return eleitoresRepository.findByEmail(email, 0);
+    }
+
+    @Transactional
+    public Eleitor save(Eleitor eleitor) {
+        return eleitoresRepository.save(eleitor);
+    }
 }

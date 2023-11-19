@@ -1,11 +1,9 @@
 package com.bytebuilders.VotoLyze.controladores;
 
 import com.bytebuilders.VotoLyze.config.TokenService;
-import com.bytebuilders.VotoLyze.entidades.AuthenticationDTO;
-import com.bytebuilders.VotoLyze.entidades.Eleitor;
-import com.bytebuilders.VotoLyze.entidades.LoginResponseDTO;
-import com.bytebuilders.VotoLyze.entidades.RegisterDTO;
+import com.bytebuilders.VotoLyze.entidades.*;
 import com.bytebuilders.VotoLyze.repositorios.EleitoresRepository;
+import com.bytebuilders.VotoLyze.repositorios.PoliticoRepository;
 import jakarta.validation.Valid;
 import java.sql.Date;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +37,9 @@ public class AuthenticationController {
     @Autowired
     EleitoresRepository eleitoresRepository;
 
+    @Autowired
+    PoliticoRepository politicoRepository;
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
         var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
@@ -66,6 +67,28 @@ public class AuthenticationController {
         eleitor.setSexo(registerDTO.sexo().charAt(0));
         eleitor.setCPF(registerDTO.CPF());
         eleitor.setDataNascimento(Date.valueOf(registerDTO.dataNascimento().toLocalDate().plusDays(1)));
+
+
+        return ResponseEntity.status(HttpStatus.CREATED).body( eleitoresRepository.save(eleitor));
+    }
+
+    @PostMapping("/politico/register")
+    public ResponseEntity politicianRegister(@RequestBody @Valid PoliticoRegisterDTO politicoRegisterDTO) {
+
+
+        if (politicoRepository.findByEmail(politicoRegisterDTO.login()) != null) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(politicoRegisterDTO.password());
+        Politico politico = new Politico();
+        politico.setEmail(politicoRegisterDTO.login());
+        politico.setSenha(encryptedPassword);
+        politico.setNome(politicoRegisterDTO.nome());
+        politico.setSexo(politicoRegisterDTO.sexo().charAt(0));
+        politico.setCPF(politicoRegisterDTO.CPF());
+        politico.setDataNascimento(Date.valueOf(politicoRegisterDTO.dataNascimento().toLocalDate().plusDays(1)));
+        politico.setInicioMandato(politicoRegisterDTO.inicioMandato());
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body( eleitoresRepository.save(eleitor));

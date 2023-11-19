@@ -166,10 +166,64 @@
     <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
     <link href="assets/vendor/aos/aos.css" rel="stylesheet">
 
-
     <!-- Template Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
 
+    <style>
+        .btn-enviar {
+            color: #FFFFFF;
+            background-color: #5271FF;
+            border-color: #545454;
+        }
+
+        .btn-enviar:hover,
+        .btn-enviar:focus,
+        .btn-enviar:active,
+        .btn-enviar.active,
+        .open .dropdown-toggle.btn-enviar {
+            color: #FFFFFF;
+            background-color: #545454;
+            border-color: #545454;
+            transition: background-color 0.3s;
+        }
+
+        .btn-enviar:active,
+        .btn-enviar.active,
+        .open .dropdown-toggle.btn-enviar {
+            background-image: none;
+        }
+
+        .btn-enviar:not(:hover) {
+            background-color: #5271FF;
+            transition: background-color 1s;
+        }
+
+        .btn-enviar.disabled,
+        .btn-enviar[disabled],
+        fieldset[disabled] .btn-enviar,
+        .btn-enviar.disabled:hover,
+        .btn-enviar[disabled]:hover,
+        fieldset[disabled] .btn-enviar:hover,
+        .btn-enviar.disabled:focus,
+        .btn-enviar[disabled]:focus,
+        fieldset[disabled] .btn-enviar:focus,
+        .btn-enviar.disabled:active,
+        .btn-enviar[disabled]:active,
+        fieldset[disabled] .btn-enviar:active,
+        .btn-enviar.disabled.active,
+        .btn-enviar[disabled].active,
+        fieldset[disabled] .btn-enviar.active {
+            background-color: #5271FF;
+
+
+
+        }
+
+        .btn-enviar .badge {
+            color: #5271FF;
+            background-color: #FFFFFF;
+        }
+    </style>
 
 </head>
 
@@ -240,6 +294,7 @@
 
                     <div class="row">
                         <div class="col-lg-8">
+
                             <ul>
                                 <li><i class="bi bi-chevron-right"></i> <strong>Nome: </strong> <input
                                         class="form-control" type="text" id="nome"/></li>
@@ -265,12 +320,14 @@
                                         class="form-control" id="emailInput" value=""/></li>
                                 <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input
                                         class="form-control" id="CPF" value=""/></li>
+                                <br>
+                                <button class="btn btn-enviar btn-lg" onclick="alterarDados()">Enviar</button>
 
-                                <button class="btn btn-info" onclick="alterarDados()">Enviar</button>
                                 <br> <br>
 
 
                             </ul>
+
                         </div>
 
                     </div>

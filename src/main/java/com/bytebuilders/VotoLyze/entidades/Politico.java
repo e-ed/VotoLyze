@@ -1,11 +1,6 @@
 package com.bytebuilders.VotoLyze.entidades;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +12,11 @@ import java.util.List;
 @Entity
 @Table(name = "POLITICOS")
 public class Politico implements UserDetails {
+
+    @OneToOne
+    @Column(name="FK_PARTIDOS_PRT_ID", nullable = false)
+    private Partido partido;
+
     @Column(name="PLT_TIPO_CANDIDATURA", nullable = false)
     private TipoCandidatura tipoCandidatura;
 

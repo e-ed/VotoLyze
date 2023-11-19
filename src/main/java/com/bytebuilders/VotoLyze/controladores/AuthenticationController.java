@@ -89,9 +89,10 @@ public class AuthenticationController {
         politico.setCPF(politicoRegisterDTO.CPF());
         politico.setDataNascimento(Date.valueOf(politicoRegisterDTO.dataNascimento().toLocalDate().plusDays(1)));
         politico.setInicioMandato(politicoRegisterDTO.inicioMandato());
+        politico.setTipoCandidatura(politicoRegisterDTO.tipoCandidatura());
 
 
-        return ResponseEntity.status(HttpStatus.CREATED).body( eleitoresRepository.save(eleitor));
+        return ResponseEntity.status(HttpStatus.CREATED).body( politicoRepository.save(politico));
     }
 
 }

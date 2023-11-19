@@ -9,14 +9,18 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.bytebuilders.VotoLyze.entidades.Eleitor;
+
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
- *
  * @author eduardo
  */
 @Service
@@ -55,5 +59,32 @@ public class TokenService {
     private Instant genExpirationDate() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-03:00"));
     }
+
+    public String getUserIdFromToken(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            DecodedJWT jwt = verifier.verify(token);
+
+            return jwt.getSubject(); // Assuming the subject is the user ID or email
+
+        } catch (Exception e) {
+            // Handle token verification errors
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    public String extractToken(String authorizationHeader) {
+
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            // Extracting the token after "Bearer "
+            return authorizationHeader.substring(7); // 7 is the length of "Bearer "
+        }
+
+        return null; // No token found in the Authorization header
+    }
+
 
 }

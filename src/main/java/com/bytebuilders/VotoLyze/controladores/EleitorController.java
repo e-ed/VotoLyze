@@ -1,6 +1,7 @@
 package com.bytebuilders.VotoLyze.controladores;
 
 
+import com.bytebuilders.VotoLyze.config.TokenService;
 import com.bytebuilders.VotoLyze.entidades.Eleitor;
 import com.bytebuilders.VotoLyze.entidades.RegisterDTO;
 import com.bytebuilders.VotoLyze.servicos.EleitoresService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,10 +28,28 @@ public class EleitorController {
     @Autowired
     EleitoresService eleitoresService;
 
+    @Autowired
+    TokenService tokenService;
+
     @PutMapping("/{id}")
-    public ResponseEntity<Object> update(@PathVariable Integer id, @RequestBody @Valid RegisterDTO registerDTO) {
+    public ResponseEntity<Object> update(@PathVariable Integer id,
+                                         @RequestBody @Valid RegisterDTO registerDTO,
+                                         @RequestHeader("Authorization") String authorization) {
+
+        String extractedTokenFromHeader = tokenService.extractToken(authorization);
+        String userRequesting = tokenService.getUserIdFromToken(extractedTokenFromHeader);
+        System.out.println(userRequesting);
+        Eleitor idFromUserRequesting = eleitoresService.findByEmailIgnoreCase(userRequesting);
+        System.out.println("user requesting: " + idFromUserRequesting.getId());
+        System.out.println("id from URL: " + id);
+
+        if (!Objects.equals(idFromUserRequesting.getId(), id)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ID mismatch for operation");
+        }
+
+
+
         Optional<Eleitor> toBeUpdated = eleitoresService.findById(id);
-        System.out.println(toBeUpdated);
         if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         var updatedUser = new Eleitor();
         updatedUser.setEmail(registerDTO.login());
@@ -64,7 +84,21 @@ public class EleitorController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable Integer id) {
+    public ResponseEntity<Object> delete(@PathVariable Integer id,
+                                         @RequestHeader("Authorization") String authorization) {
+
+        String extractedTokenFromHeader = tokenService.extractToken(authorization);
+        String userRequesting = tokenService.getUserIdFromToken(extractedTokenFromHeader);
+        System.out.println(userRequesting);
+        Eleitor idFromUserRequesting = eleitoresService.findByEmailIgnoreCase(userRequesting);
+        System.out.println("user requesting: " + idFromUserRequesting.getId());
+        System.out.println("id from URL: " + id);
+
+        if (!Objects.equals(idFromUserRequesting.getId(), id)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ID mismatch for operation");
+        }
+
+
         Optional<Eleitor> toBeDeleted = eleitoresService.findById(id);
         if (!toBeDeleted.isPresent()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         eleitoresService.delete(toBeDeleted.get());
@@ -72,7 +106,21 @@ public class EleitorController {
     }
 
     @PutMapping("/updatePassword/{id}")
-    public ResponseEntity<Object> updatePassword(@PathVariable Integer id, @RequestBody @Valid RegisterDTO registerDTO) {
+    public ResponseEntity<Object> updatePassword(@PathVariable Integer id,
+                                                 @RequestBody @Valid RegisterDTO registerDTO,
+                                                 @RequestHeader("Authorization") String authorization) {
+        String extractedTokenFromHeader = tokenService.extractToken(authorization);
+        String userRequesting = tokenService.getUserIdFromToken(extractedTokenFromHeader);
+        System.out.println(userRequesting);
+        Eleitor idFromUserRequesting = eleitoresService.findByEmailIgnoreCase(userRequesting);
+        System.out.println("user requesting: " + idFromUserRequesting.getId());
+        System.out.println("id from URL: " + id);
+
+        if (!Objects.equals(idFromUserRequesting.getId(), id)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ID mismatch for operation");
+        }
+
+
         Optional<Eleitor> toBeUpdated = eleitoresService.findById(id);
         if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         var updatedUser = new Eleitor();

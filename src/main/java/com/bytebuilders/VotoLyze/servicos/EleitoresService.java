@@ -47,7 +47,12 @@ public class EleitoresService {
         return eleitoresRepository.save(eleitor);
     }
 
+    @Transactional
     public void delete(Eleitor eleitor) {
         eleitoresRepository.delete(eleitor);
+    }
+
+    public Eleitor findByEmailIgnoreCase(String email) {
+        return eleitoresRepository.findByEmailIgnoreCase(email);
     }
 }

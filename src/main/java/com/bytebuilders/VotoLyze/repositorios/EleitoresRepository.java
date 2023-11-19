@@ -9,5 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EleitoresRepository extends JpaRepository<Eleitor, Integer> {
     public UserDetails findByEmail(String email);
+    public Eleitor findByEmailIgnoreCase(String email);
 
 }

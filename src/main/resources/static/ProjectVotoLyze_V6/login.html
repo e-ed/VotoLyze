@@ -38,7 +38,8 @@
                 window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
               })
               .catch(error => {
-                console.error('There was a problem registering the user:', error);
+                document.getElementsByClassName("error-message")[0].style.display = 'block';
+                document.getElementsByClassName("error-message")[0].innerText = "Usuário ou senha inválidos!";
               });
 
     }

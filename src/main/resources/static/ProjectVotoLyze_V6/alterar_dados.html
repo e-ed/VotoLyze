@@ -8,7 +8,7 @@
             const loginLink = document.getElementById('loginLink');
             const accessToken = localStorage.getItem('accessToken');
 
-            const emailInput = document.getElementById('email');
+            const emailInput = document.getElementById('emailInput');
             const passwordInput = document.getElementById('password');
             const CPF = document.getElementById('CPF');
             const sexo = document.getElementById('sexo');
@@ -48,11 +48,11 @@
                     // Work with the JSON data
                     console.log('Data received:', data);
                     // You can process the 'data' here
-                    emailInput.innerHTML = `${data.email}`;
-                    nome.innerHTML = `${data.nome}`
-                    sexo.innerHTML = `${data.sexo}`;
-                    dataNascimento.innerHTML = `${data.dataNascimento}`;
-                    CPF.innerHTML = `${data.cpf}`
+                    emailInput.value = `${data.email}`;
+                    nome.value = `${data.nome}`
+                    sexo.value = `${data.sexo}`;
+                    dataNascimento.value = `${data.dataNascimento}`;
+                    CPF.value = `${data.cpf}`
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
@@ -166,14 +166,12 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <ul>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Sexo:</strong> <span id="sexo"></span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <span id="dataNascimento"></span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <span id="email">/span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <span id="CPF"></span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Sexo:</strong> <input id="sexo" value=""/></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <input id="dataNascimento" value=""/></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <input id="emailInput" value=""/></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input id="CPF" value=""/></li>
 
-                                <button class="btn btn-warning">Alterar senha</button> <br> <br>
-                                <button class="btn btn-danger">Excluir perfil</button> <br> <br>
-                                <button class="btn btn-info"><a style="color: inherit;" href="alterar_dados.html">Alterar dados pessoais</a></button> <br> <br>
+                                <button class="btn btn-info">Enviar</button> <br> <br>
 
 
                             </ul>

@@ -6,6 +6,7 @@ import com.bytebuilders.VotoLyze.entidades.Eleitor;
 import com.bytebuilders.VotoLyze.entidades.RegisterDTO;
 import com.bytebuilders.VotoLyze.servicos.EleitoresService;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/eleitor")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class EleitorController {
 
     @Autowired
@@ -48,10 +50,11 @@ public class EleitorController {
         }
 
 
-
+        System.out.println("before findById");
         Optional<Eleitor> toBeUpdated = eleitoresService.findById(id);
         if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         var updatedUser = new Eleitor();
+
         updatedUser.setEmail(registerDTO.login());
         updatedUser.setSenha(toBeUpdated.get().getSenha());
         updatedUser.setNome(registerDTO.nome());
@@ -59,7 +62,12 @@ public class EleitorController {
         updatedUser.setCPF(registerDTO.CPF());
         updatedUser.setDataNascimento(Date.valueOf(registerDTO.dataNascimento().toLocalDate().plusDays(1)));
         updatedUser.setId(toBeUpdated.get().getId());
-        return ResponseEntity.status(HttpStatus.OK).body(eleitoresService.save(updatedUser));
+
+        ResponseEntity<Object> r = ResponseEntity.status(HttpStatus.OK).body(eleitoresService.save(updatedUser));
+
+
+        System.out.println(r.toString());
+        return r;
 
     }
 
@@ -84,8 +92,7 @@ public class EleitorController {
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> delete(@PathVariable Integer id,
-                                         @RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<Object> delete(@PathVariable Integer id, @RequestHeader("Authorization") String authorization) {
 
         String extractedTokenFromHeader = tokenService.extractToken(authorization);
         String userRequesting = tokenService.getUserIdFromToken(extractedTokenFromHeader);

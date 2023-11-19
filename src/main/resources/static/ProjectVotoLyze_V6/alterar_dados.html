@@ -83,14 +83,6 @@
             const dataNascimento = document.getElementById('dataNascimento').value;
             const nome = document.getElementById('nome').value;
 
-
-            console.log(nome)
-            console.log(emailInput)
-            console.log(CPF)
-            console.log(sexo)
-            console.log(dataNascimento)
-
-
             const updatedUserData = {
                 "login": emailInput,
                 "CPF": CPF,
@@ -99,7 +91,7 @@
                 "nome": nome
             };
 
-            const token = localStorage['accessToken']; // Replace with your actual Bearer token
+            const token = localStorage['accessToken'];
 
             const headers = new Headers();
             headers.append('Authorization', `Bearer ${token}`);
@@ -112,14 +104,18 @@
                 body: JSON.stringify(updatedUserData)
             })
                 .then(response => {
+
                     if (!response.ok) {
+                        window.alert("Erro!");
                         throw new Error('Network response was not ok');
                     }
+
+
                     return response.json();
                 })
                 .then(updatedData => {
                     console.log('Updated data:', updatedData);
-                    // Handle the response after successful update
+
                     window.alert("Dados alterados com sucesso!");
                     console.log("old: " + oldEmail);
                     console.log("updated: " + updatedData.email);
@@ -136,6 +132,7 @@
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
                     // Handle errors here
+                    window.alert(error);
                 });
 
 
@@ -216,7 +213,6 @@
             background-color: #5271FF;
 
 
-
         }
 
         .btn-enviar .badge {
@@ -292,12 +288,16 @@
 
                 <div class="col-lg-5 content">
 
+
                     <div class="row">
                         <div class="col-lg-8">
 
                             <ul>
                                 <li><i class="bi bi-chevron-right"></i> <strong>Nome: </strong> <input
-                                        class="form-control" type="text" id="nome"/></li>
+                                        class="form-control"
+                                        type="text"
+                                        id="nome"/>
+                                </li>
 
                                 <li>
                                     <i class="bi bi-chevron-right"></i>
@@ -315,11 +315,17 @@
                                     </ul>
                                 </li>
                                 <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <input
+
                                         class="form-control" type="date" id="dataNascimento" value=""/></li>
                                 <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <input
-                                        class="form-control" id="emailInput" value=""/></li>
+                                        class="form-control"
+                                        id="emailInput"
+                                        value=""/>
+                                </li>
                                 <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input
-                                        class="form-control" id="CPF" value=""/></li>
+                                        class="form-control"
+                                        id="CPF"
+                                        value=""/></li>
                                 <br>
                                 <button class="btn btn-enviar btn-lg" onclick="alterarDados()">Enviar</button>
 
@@ -331,6 +337,7 @@
                         </div>
 
                     </div>
+
                 </div>
 
             </div>

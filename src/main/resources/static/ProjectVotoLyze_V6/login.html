@@ -32,7 +32,6 @@
               })
               .then(data => {
                 console.log(data)
-                window.alert('Login com sucesso!');
                 localStorage.setItem('accessToken', data["token"]);
                 localStorage.setItem('userEmail', emailInput);
                 console.log(localStorage);

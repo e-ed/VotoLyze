@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Date;
@@ -69,4 +70,24 @@ public class EleitorController {
         eleitoresService.delete(toBeDeleted.get());
         return ResponseEntity.status(HttpStatus.OK).body("deleted");
     }
+
+    @PutMapping("updatePassword/${id}")
+    public ResponseEntity<Object> updatePassword(@PathVariable Integer id, @RequestBody @Valid RegisterDTO registerDTO) {
+        Optional<Eleitor> toBeUpdated = eleitoresService.findById(id);
+        if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
+        var updatedUser = new Eleitor();
+        updatedUser.setEmail(toBeUpdated.get().getEmail());
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.password());
+        updatedUser.setSenha(encryptedPassword);
+
+        updatedUser.setNome(toBeUpdated.get().getNome());
+        updatedUser.setSexo(toBeUpdated.get().getSexo());
+        updatedUser.setCPF(toBeUpdated.get().getCPF());
+        updatedUser.setDataNascimento(Date.valueOf(toBeUpdated.get().getDataNascimento().toLocalDate().plusDays(1)));
+        updatedUser.setId(toBeUpdated.get().getId());
+        return ResponseEntity.status(HttpStatus.OK).body(eleitoresService.save(updatedUser));
+
+    }
+
 }

@@ -44,7 +44,7 @@ public class EleitoresService {
 
     @Transactional
     public Eleitor save(Eleitor eleitor) {
-        System.out.println("Service: " + eleitor);
+
 
         return eleitoresRepository.save(eleitor);
     }

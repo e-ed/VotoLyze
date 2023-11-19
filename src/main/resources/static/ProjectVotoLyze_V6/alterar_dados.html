@@ -83,58 +83,63 @@
             const dataNascimento = document.getElementById('dataNascimento').value;
             const nome = document.getElementById('nome').value;
 
-            const updatedUserData = {
-                "login": emailInput,
-                "CPF": CPF,
-                "sexo": sexo,
-                "dataNascimento": dataNascimento,
-                "nome": nome
-            };
-
-            const token = localStorage['accessToken'];
-
-            const headers = new Headers();
-            headers.append('Authorization', `Bearer ${token}`);
-            headers.append('Content-Type', 'application/json');
+            if (!emailInput || !CPF || !sexo || !dataNascimento || !nome) {
+                alert('Preencha todos os campos.'); // Show an alert or handle the validation error
+            } else {
 
 
-            fetch(`http://localhost:8080/eleitor/${userData.id}`, {
-                method: 'PUT',
-                headers: headers,
-                body: JSON.stringify(updatedUserData)
-            })
-                .then(response => {
+                const updatedUserData = {
+                    "login": emailInput,
+                    "CPF": CPF,
+                    "sexo": sexo,
+                    "dataNascimento": dataNascimento,
+                    "nome": nome
+                };
 
-                    if (!response.ok) {
-                        window.alert("Erro!");
-                        throw new Error('Network response was not ok');
-                    }
+                const token = localStorage['accessToken'];
+
+                const headers = new Headers();
+                headers.append('Authorization', `Bearer ${token}`);
+                headers.append('Content-Type', 'application/json');
 
 
-                    return response.json();
+                fetch(`http://localhost:8080/eleitor/${userData.id}`, {
+                    method: 'PUT',
+                    headers: headers,
+                    body: JSON.stringify(updatedUserData)
                 })
-                .then(updatedData => {
-                    console.log('Updated data:', updatedData);
+                    .then(response => {
 
-                    window.alert("Dados alterados com sucesso!");
-                    console.log("old: " + oldEmail);
-                    console.log("updated: " + updatedData.email);
-                    console.log(oldEmail !== updatedData.email)
-                    if (oldEmail !== updatedData.email) {
-                        window.alert("E-mail alterado, por favor faça login novamente!")
-                        localStorage.clear();
-                        window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
-                    } else {
-                        window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/painel.html");
-                    }
+                        if (!response.ok) {
+                            window.alert("Erro!");
+                            throw new Error('Network response was not ok');
+                        }
 
-                })
-                .catch(error => {
-                    console.error('There was a problem with the fetch operation:', error);
-                    // Handle errors here
-                    window.alert(error);
-                });
 
+                        return response.json();
+                    })
+                    .then(updatedData => {
+                        console.log('Updated data:', updatedData);
+
+                        window.alert("Dados alterados com sucesso!");
+                        console.log("old: " + oldEmail);
+                        console.log("updated: " + updatedData.email);
+                        console.log(oldEmail !== updatedData.email)
+                        if (oldEmail !== updatedData.email) {
+                            window.alert("E-mail alterado, por favor faça login novamente!")
+                            localStorage.clear();
+                            window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
+                        } else {
+                            window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/painel.html");
+                        }
+
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                        // Handle errors here
+                        window.alert(error);
+                    });
+            }
 
         }
 

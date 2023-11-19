@@ -40,17 +40,13 @@ public class EleitorController {
 
         String extractedTokenFromHeader = tokenService.extractToken(authorization);
         String userRequesting = tokenService.getUserIdFromToken(extractedTokenFromHeader);
-        System.out.println(userRequesting);
         Eleitor idFromUserRequesting = eleitoresService.findByEmailIgnoreCase(userRequesting);
-        System.out.println("user requesting: " + idFromUserRequesting.getId());
-        System.out.println("id from URL: " + id);
-
+        
         if (!Objects.equals(idFromUserRequesting.getId(), id)) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ID mismatch for operation");
         }
 
 
-        System.out.println("before findById");
         Optional<Eleitor> toBeUpdated = eleitoresService.findById(id);
         if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         var updatedUser = new Eleitor();
@@ -63,11 +59,8 @@ public class EleitorController {
         updatedUser.setDataNascimento(Date.valueOf(registerDTO.dataNascimento().toLocalDate().plusDays(1)));
         updatedUser.setId(toBeUpdated.get().getId());
 
-        ResponseEntity<Object> r = ResponseEntity.status(HttpStatus.OK).body(eleitoresService.save(updatedUser));
 
-
-        System.out.println(r.toString());
-        return r;
+        return ResponseEntity.status(HttpStatus.OK).body(eleitoresService.save(updatedUser));
 
     }
 

@@ -4,7 +4,7 @@
 <head>
     <script>
         document.addEventListener("DOMContentLoaded", function(event) {
-
+            let userData = {}
             const loginLink = document.getElementById('loginLink');
             const accessToken = localStorage.getItem('accessToken');
 
@@ -47,6 +47,7 @@
                 .then(data => {
                     // Work with the JSON data
                     console.log('Data received:', data);
+                    userData = data;
                     // You can process the 'data' here
                     emailInput.value = `${data.email}`;
                     nome.value = `${data.nome}`
@@ -71,6 +72,58 @@
 
         });
 
+
+        function alterarDados() {
+            const emailInput = document.getElementById('emailInput').value;
+            const CPF = document.getElementById('CPF').value;
+            const sexo = document.querySelector('input[name="gender"]:checked').value;
+            const dataNascimento = document.getElementById('dataNascimento').value;
+            const nome = document.getElementById('nome').value;
+
+
+            console.log(nome)
+            console.log(emailInput)
+            console.log(CPF)
+            console.log(sexo)
+            console.log(dataNascimento)
+
+
+            const data = {
+                "login": emailInput,
+                "CPF": CPF,
+                "sexo": sexo,
+                "dataNascimento": dataNascimento,
+                "nome": nome
+            };
+
+            const token = localStorage['accessToken']; // Replace with your actual Bearer token
+
+            const headers = new Headers();
+            headers.append('Authorization', `Bearer ${token}`);
+            fetch(`eleitor/${userData.id}}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    console.log(data)
+                    window.alert('Dados alterados com sucesso!');
+                    window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/painel.html");
+                })
+                .catch(error => {
+                    console.error('There was a problem registering the user:', error);
+                });
+
+
+        }
 
     </script>
     <meta charset="utf-8">
@@ -200,7 +253,7 @@
                                 <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <input id="emailInput" value=""/></li>
                                 <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input id="CPF" value=""/></li>
 
-                                <button class="btn btn-info">Enviar</button> <br> <br>
+                                <button class="btn btn-info" onclick="alterarDados()">Enviar</button> <br> <br>
 
 
                             </ul>

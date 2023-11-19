@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/ProjectVotoLyze_V6/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/").permitAll()
 
 
                         .anyRequest().authenticated()

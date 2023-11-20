@@ -4,6 +4,7 @@
 <head>
     <script>
         let userData = {}
+        let tipoUsuario = localStorage.getItem('tipoUsuario');
         function userLogout() {
             var answer = window.confirm("Deseja mesmo fazer logout?");
             if (answer) {
@@ -13,9 +14,10 @@
         }
         document.addEventListener("DOMContentLoaded", function(event) {
 
+
             let fetchUrl;
 
-            if (localStorage.getItem('tipoUsuario') === 'eleitor') {
+            if (tipoUsuario === 'eleitor') {
                 fetchUrl = 'http://localhost:8080/eleitor/';
             } else {
                 fetchUrl = 'http://localhost:8080/politico/';
@@ -45,7 +47,6 @@
                 loginLink.innerHTML = `<a href="login.html">Login</a>`;
             }
 
-            console.log('http://localhost:8080/eleitor/' + localStorage['userEmail'])
 
 
             const userEmail = localStorage['userEmail']; // Assuming you have the user's email stored in localStorage
@@ -54,7 +55,10 @@
             const headers = new Headers();
             headers.append('Authorization', `Bearer ${token}`);
 
-            fetch(`http://localhost:8080/eleitor/${userEmail}`, {
+            console.log(`${fetchUrl}${userEmail}`);
+
+
+            fetch(`${fetchUrl}${userEmail}`, {
                 headers: headers
             })
                 .then(response => {
@@ -73,6 +77,19 @@
                     sexo.innerHTML = `${data.sexo}` === 'M' ? 'Masculino' : "Feminino";
                     dataNascimento.innerHTML = `${data.dataNascimento}`;
                     CPF.innerHTML = `${data.cpf}`;
+
+                    if (tipoUsuario === 'politico') {
+                        let lastElement = document.getElementById("CPF");
+                        var newElement = `<br><li><i class="bi bi-chevron-right"></i> <strong>Tipo de candidatura:</strong> <span id="tipoCandidatura">${data.tipoCandidatura}</span><br></li> <li><i class="bi bi-chevron-right"></i> <strong>Inicio do Mandato:</strong> <span id="inicioMandato">${data.inicioMandato}</span></li> <br><li><i class="bi bi-chevron-right"></i> <strong>Partido:</strong> <span id="partido">${data.partido}</span></li><br>`;
+                        lastElement.insertAdjacentHTML('afterend', newElement);
+
+
+
+
+
+                    }
+
+
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);

@@ -138,7 +138,7 @@ public class PoliticoController {
         updatedUser.setTipoCandidatura(toBeUpdated.get().getTipoCandidatura());
         updatedUser.setPartido(toBeUpdated.get().getPartido());
         updatedUser.setInicioMandato(toBeUpdated.get().getInicioMandato());
-        
+
         return ResponseEntity.status(HttpStatus.OK).body(politicoServices.save(updatedUser));
 
     }

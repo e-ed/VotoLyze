@@ -52,6 +52,13 @@
       const dataNascimento = document.getElementById('dataNascimento').value;
       const nome = document.getElementById('nome').value;
 
+      const select = document.getElementById('mySelect');
+      const selectedOption = select.options[select.selectedIndex];
+      const partidoId = selectedOption.value;
+      console.log('Selected ID:', partidoId);
+
+      const inicioMandato = document.getElementById("inicioMandato").value;
+
 
 
       const data = {
@@ -60,7 +67,11 @@
         "CPF": CPF,
         "sexo": sexo,
         "dataNascimento": dataNascimento,
-        "nome": nome
+        "nome": nome,
+        "partido": {
+          id: partidoId
+        },
+        "inicioMandato": inicioMandato,
       };
 
       fetch('/auth/politico/register', {

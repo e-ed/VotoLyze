@@ -3,6 +3,14 @@
 
 <head>
     <script>
+        let fetchUrl;
+        const tipoUsuario = localStorage['tipoUsuario'];
+
+        if (tipoUsuario === 'eleitor') {
+            fetchUrl = 'http://localhost:8080/eleitor/';
+        } else {
+            fetchUrl = 'http://localhost:8080/politico/';
+        }
 
 
 
@@ -35,11 +43,14 @@
             const userEmail = localStorage['userEmail']; // Assuming you have the user's email stored in localStorage
             const token = localStorage['accessToken']; // Replace with your actual Bearer token
 
+
+
+
             const headers = new Headers();
             headers.append('Authorization', `Bearer ${token}`);
 
 
-            fetch(`http://localhost:8080/eleitor/${userEmail}`, {
+            fetch(`${fetchUrl}${userEmail}`, {
                 headers: headers
             })
                 .then(response => {
@@ -69,6 +80,10 @@
 
                     dataNascimento.value = `${data.dataNascimento}`;
                     CPF.value = `${data.cpf}`
+
+                    const inicioMandato = document.getElementById('inicioMandatoInput');
+                    inicioMandato.value = `${userData.inicioMandato}`;
+
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
@@ -81,6 +96,28 @@
                 event.preventDefault();
                 alterarDados();
             });
+
+
+            if (tipoUsuario === 'politico') {
+                let cpfElement = document.getElementById("CPF");
+                let enviarButton = document.querySelector(".btn-enviar");
+
+                var newElement = `<li><i class="bi bi-chevron-right"></i> <strong>Tipo de candidatura:</strong> <input class="form-control" type="text" id="tipoCandidaturaInput" value=""></li>
+                <li>
+                    <i class="bi bi-chevron-right"></i>
+                    <strong>Inicio do Mandato:</strong>
+                    <input class="form-control" type="text" id="inicioMandatoInput" value="">
+                </li>
+                <li>
+                    <i class="bi bi-chevron-right"></i>
+                    <strong>Partido:</strong>
+                    <input class="form-control" type="text" id="partidoInput" value="">
+                </li>`;
+
+                cpfElement.insertAdjacentHTML('afterend', newElement);
+
+
+            }
 
 
         });

@@ -3,6 +3,23 @@
 
 <head>
     <script>
+        function pegarPartidos() {
+            fetch('http://localhost:8080/partido')
+                .then(response => response.json())
+                .then(data => {
+                    // Get reference to the select element
+                    const select = document.getElementById('mySelect');
+
+                    // Loop through the data and create options
+                    data.forEach(item => {
+                        const option = document.createElement('option');
+                        option.value = item.id; // Assuming 'id' is a property in your data
+                        option.textContent = item.nome + ' - ' +  item.sigla; // Change 'name' to the property you want to display
+                        select.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
         let fetchUrl;
         const tipoUsuario = localStorage['tipoUsuario'];
 
@@ -78,8 +95,7 @@
                     dataNascimento.value = `${data.dataNascimento}`;
                     CPF.value = `${data.cpf}`
 
-                    const inicioMandato = document.getElementById('inicioMandatoInput');
-                    //inicioMandato.value = `${userData.inicioMandato}`;
+
 
                 })
                 .catch(error => {
@@ -96,6 +112,20 @@
 
 
             if (tipoUsuario === 'politico') {
+                document.getElementById("firstHiddenInput").style.visibility = 'visible';
+                document.getElementById("secondHiddenInput").style.visibility = 'visible';
+                document.getElementById("thirdHiddenInput").style.visibility = 'visible';
+
+                pegarPartidos();
+                document.getElementById('inicioMandato').value = userData.inicioMandato;
+                if (userData.tipoCandidatura === 'vereador') {
+                    let radiobtn = document.getElementById("VEREADOR");
+                    radiobtn.checked = true;
+                } else {
+                    let radiobtn = document.getElementById("PREFEITO");
+                    radiobtn.checked = true;
+                }
+
 
 
 
@@ -111,19 +141,49 @@
             const sexo = document.querySelector('input[name="gender"]:checked').value;
             const dataNascimento = document.getElementById('dataNascimento').value;
             const nome = document.getElementById('nome').value;
+            let novoTipoCandidatura;
+            let novoInicioMandato;
+            let novoPartido;
+
+            if (tipoUsuario === 'politico') {
+                novoTipoCandidatura = document.querySelector('input[name="candidatura"]:checked').value;
+                const dataNascimento = document.getElementById('inicioMandato').value;
+                const select = document.getElementById('mySelect');
+                const selectedOption = select.options[select.selectedIndex];
+                const partidoId = selectedOption.value;
+                novoPartido = partidoId;
+
+            }
 
             if (!emailInput || !CPF || !sexo || !dataNascimento || !nome) {
                 alert('Preencha todos os campos.'); // Show an alert or handle the validation error
             } else {
 
 
-                const updatedUserData = {
-                    "login": emailInput,
-                    "CPF": CPF,
-                    "sexo": sexo,
-                    "dataNascimento": dataNascimento,
-                    "nome": nome
-                };
+                let updatedUserData;
+
+                if(tipoUsuario === 'eleitor') {
+                    updatedUserData = {
+                        "login": emailInput,
+                        "CPF": CPF,
+                        "sexo": sexo,
+                        "dataNascimento": dataNascimento,
+                        "nome": nome
+                    }
+                } else {
+                    updatedUserData = {
+                        "login": emailInput,
+                        "CPF": CPF,
+                        "sexo": sexo,
+                        "dataNascimento": dataNascimento,
+                        "nome": nome,
+                        "inicioMandato": novoInicioMandato,
+                        "tipoCandidatura": novoTipoCandidatura,
+                        "partido": {
+                            "id": novoPartido
+                        }
+                    }
+                }
 
                 const token = localStorage['accessToken'];
 
@@ -132,7 +192,7 @@
                 headers.append('Content-Type', 'application/json');
 
 
-                fetch(`http://localhost:8080/eleitor/${userData.id}`, {
+                fetch(`${fetchUrl}${userData.id}`, {
                     method: 'PUT',
                     headers: headers,
                     body: JSON.stringify(updatedUserData)
@@ -362,29 +422,30 @@
                                             id="CPF"
                                             value=""/></li>
                                     <br>
-                                    <li id="tipoCandidaturaLi" style="display: ;">
+                                    <li id="firstHiddenInput" style="visibility: hidden">
                                         <i class="bi bi-chevron-right"></i>
                                         <strong>Tipo de candidatura:</strong>
-                                        <div class="row mt-3">
-                                            <div class="col-md-6 form-group text-center">
-                                                <label for="contactChoice1">Vereador</label>
-                                                <input type="radio" name="tipoCandidatura" class="form-control" value="VEREADOR" required>
-                                            </div>
-                                            <div class="col-md-6 form-group mt-3 mt-md-0 col-lg-6 text-center">
-                                                <label for="contactChoice2">Prefeito</label>
-                                                <input type="radio" name="tipoCandidatura" class="form-control" value="PREFEITO" required>
-                                            </div>
-                                        </div>
+                                        <br>
+                                        <ul>
+                                            <li>
+                                                <label>Prefeito</label>
+                                                <input type="radio" id="PREFEITO" name="candidatura" value="PREFEITO">
+                                            </li>
+                                            <li>
+                                                <label for="female">Vereador</label>
+                                                <input type="radio" id="VEREADOR" name="candidatura" value="VEREADOR">
+                                            </li>
+                                        </ul>
                                     </li>
 
-                                    <li> <i class="bi bi-chevron-right"></i> <strong>Início de mandato: </strong>
+                                    <li id="secondHiddenInput" style="visibility: hidden"> <i class="bi bi-chevron-right"></i> <strong>Início de mandato: </strong>
 
                                         <input type="date" class="form-control" name="inicioMandato" id="inicioMandato">
                                     </li>
 
 
-                                <li> <i class="bi bi-chevron-right"></i> <strong>Partido:</strong>
-                                    
+                                <li id="thirdHiddenInput" style="visibility: hidden"> <i class="bi bi-chevron-right"></i> <strong>Partido:</strong>
+
                                     <select required class="form-select" id="mySelect" name="partido">
 
                                     </select>

@@ -47,6 +47,8 @@ public class PoliticoController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("ID mismatch for operation");
         }
 
+        System.out.println(registerDTO);
+
 
         Optional<Politico> toBeUpdated = politicoServices.findById(id);
         if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");

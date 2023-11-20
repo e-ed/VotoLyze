@@ -156,7 +156,8 @@
 
             if (tipoUsuario === 'politico') {
                 novoTipoCandidatura = document.querySelector('input[name="candidatura"]:checked').value;
-                const dataNascimento = document.getElementById('inicioMandato').value;
+                novoInicioMandato = document.getElementById('inicioMandato').value;
+                console.log("inicio: " + novoInicioMandato);
                 const select = document.getElementById('mySelect');
                 const selectedOption = select.options[select.selectedIndex];
                 const partidoId = selectedOption.value;
@@ -193,6 +194,8 @@
                         }
                     }
                 }
+
+                console.log("sending data: " + updatedUserData.inicioMandato);
 
                 const token = localStorage['accessToken'];
 

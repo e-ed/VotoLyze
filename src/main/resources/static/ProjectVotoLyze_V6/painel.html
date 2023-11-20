@@ -6,6 +6,14 @@
         let userData = {}
         let tipoUsuario = localStorage.getItem('tipoUsuario');
 
+        let fetchUrl;
+
+        if (tipoUsuario === 'eleitor') {
+            fetchUrl = 'http://localhost:8080/eleitor/';
+        } else {
+            fetchUrl = 'http://localhost:8080/politico/';
+        }
+
         function userLogout() {
             var answer = window.confirm("Deseja mesmo fazer logout?");
             if (answer) {
@@ -17,13 +25,6 @@
         document.addEventListener("DOMContentLoaded", function (event) {
 
 
-            let fetchUrl;
-
-            if (tipoUsuario === 'eleitor') {
-                fetchUrl = 'http://localhost:8080/eleitor/';
-            } else {
-                fetchUrl = 'http://localhost:8080/politico/';
-            }
 
 
             const loginLink = document.getElementById('loginLink');
@@ -110,7 +111,7 @@
                 const headers = new Headers();
                 headers.append('Authorization', `Bearer ${accessToken}`);
 
-                fetch(`http://localhost:8080/eleitor/${userData.id}`, {
+                fetch(`${fetchUrl}${userData.id}`, {
                     method: 'DELETE',
                     headers: headers
                 })
@@ -159,7 +160,7 @@
                 headers.append('Content-Type', 'application/json');
 
 
-                fetch(`http://localhost:8080/eleitor/updatePassword/${userData.id}`, {
+                fetch(`${fetchUrl}updatePassword/${userData.id}`, {
                     method: 'PUT',
                     headers: headers,
                     body: JSON.stringify(newPasswordData)

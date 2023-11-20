@@ -5,6 +5,7 @@
     <script>
         let userData = {}
         let tipoUsuario = localStorage.getItem('tipoUsuario');
+
         function userLogout() {
             var answer = window.confirm("Deseja mesmo fazer logout?");
             if (answer) {
@@ -12,7 +13,8 @@
                 window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
             }
         }
-        document.addEventListener("DOMContentLoaded", function(event) {
+
+        document.addEventListener("DOMContentLoaded", function (event) {
 
 
             let fetchUrl;
@@ -22,8 +24,6 @@
             } else {
                 fetchUrl = 'http://localhost:8080/politico/';
             }
-
-
 
 
             const loginLink = document.getElementById('loginLink');
@@ -46,7 +46,6 @@
 
                 loginLink.innerHTML = `<a href="login.html">Login</a>`;
             }
-
 
 
             const userEmail = localStorage['userEmail']; // Assuming you have the user's email stored in localStorage
@@ -79,11 +78,15 @@
                     CPF.innerHTML = `${data.cpf}`;
 
                     if (tipoUsuario === 'politico') {
-                        let lastElement = document.getElementById("CPF");
-                        var newElement = `<br><li><i class="bi bi-chevron-right"></i> <strong>Tipo de candidatura:</strong> <span id="tipoCandidatura">${data.tipoCandidatura}</span><br></li> <li><i class="bi bi-chevron-right"></i> <strong>Inicio do Mandato:</strong> <span id="inicioMandato">${data.inicioMandato}</span></li> <br><li><i class="bi bi-chevron-right"></i> <strong>Partido:</strong> <span id="partido">${data.partido}</span></li><br>`;
-                        lastElement.insertAdjacentHTML('afterend', newElement);
+                        let cpfElement = document.getElementById("CPF");
+                        let alterarSenhaBtn = document.getElementById("alterarSenhaBtn");
+                        let parentUl = cpfElement.parentElement.closest('ul');
 
+                        var newElement = `<li><i class="bi bi-chevron-right"></i> <strong>Tipo de candidatura:</strong> <span id="tipoCandidatura">${data.tipoCandidatura}</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>Inicio do Mandato:</strong> <span id="inicioMandato">${data.inicioMandato}</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>Partido:</strong> <span id="partido">${data.partido.sigla} - ${data.partido.nome}</span></li>`;
 
+                        alterarSenhaBtn.insertAdjacentHTML('beforebegin', newElement);
 
 
 
@@ -95,7 +98,6 @@
                     console.error('There was a problem with the fetch operation:', error);
                     // Handle errors here
                 });
-
 
 
         });
@@ -128,9 +130,7 @@
                     });
 
 
-
-            }
-            else {
+            } else {
                 console.log("nao excluir")
             }
         }
@@ -138,7 +138,7 @@
         function alterarSenha() {
             var element = document.getElementById("alterarSenhaBtn");
             var newElement = '<br><br><br><p>Digite a nova senha:</p><input class="form-control" required type="password" id="novaSenha"/><br><br><button class="btn btn-dark" onclick="alterarSenha2()">Alterar senha</button><br><br><br><br>'
-            element.insertAdjacentHTML( 'afterend', newElement )
+            element.insertAdjacentHTML('afterend', newElement)
         }
 
         function alterarSenha2() {
@@ -179,14 +179,10 @@
                     });
 
 
-
-            }
-            else {
+            } else {
                 console.log("nao alterar")
             }
         }
-
-
 
 
     </script>
@@ -204,7 +200,8 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+          rel="stylesheet">
 
     <!-- Vendor CSS Files -->
     <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -233,15 +230,14 @@
         </a>
 
 
-
-
         <nav id="navbar" class="navbar">
             <ul>
                 <li><a href="index.html" class="active">Início</a></li>
                 <li><a href="sobre.html">Sobre</a></li>
                 <li><a href="prefeitos.html">Prefeitos</a></li>
                 <li><a href="vereadores.html">Vereadores</a></li>
-                <li class="dropdown"><a href="#"><span>Cadastro</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
+                <li class="dropdown"><a href="#"><span>Cadastro</span> <i
+                        class="bi bi-chevron-down dropdown-indicator"></i></a>
                     <ul>
                         <li><a href="cadastroEleitor.html">Cadastro Eleitor</a></li>
                         <li><a href="cadastroPolitico.html">Cadastro Político</a></li>
@@ -288,16 +284,27 @@
                     <div class="row">
                         <div class="col-lg-8">
                             <ul>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Sexo:</strong> <span id="sexo"></span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <span id="dataNascimento"></span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <span id="email">/span></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <span id="CPF"></span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Sexo:</strong> <span id="sexo"></span>
+                                </li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <span
+                                        id="dataNascimento"></span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <span id="email">/span>
+                                </li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <span id="CPF"></span>
+                                </li>
 
-                                <button id="alterarSenhaBtn" class="btn btn-warning" onclick="alterarSenha()">Alterar senha</button> <br> <br>
-                                <button class="btn btn-danger" onclick="excluirPerfil()">Excluir perfil</button> <br> <br>
-                                <button class="btn btn-info"><a style="color: inherit;" href="alterar_dados.html">Alterar dados pessoais</a></button> <br> <br>
-                                <button class="btn btn-light"><a style="color: inherit;" onclick="userLogout()">Logout</a></button> <br> <br>
-
+                                <button id="alterarSenhaBtn" class="btn btn-warning" onclick="alterarSenha()">Alterar
+                                    senha
+                                </button>
+                                <br> <br>
+                                <button class="btn btn-danger" onclick="excluirPerfil()">Excluir perfil</button>
+                                <br> <br>
+                                <button class="btn btn-info"><a style="color: inherit;" href="alterar_dados.html">Alterar
+                                    dados pessoais</a></button>
+                                <br> <br>
+                                <button class="btn btn-light"><a style="color: inherit;"
+                                                                 onclick="userLogout()">Logout</a></button>
+                                <br> <br>
 
 
                             </ul>

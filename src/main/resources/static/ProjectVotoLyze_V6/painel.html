@@ -13,6 +13,16 @@
         }
         document.addEventListener("DOMContentLoaded", function(event) {
 
+            let fetchUrl;
+
+            if (localStorage.getItem('tipoUsuario') === 'eleitor') {
+                fetchUrl = 'http://localhost:8080/eleitor/';
+            } else {
+                fetchUrl = 'http://localhost:8080/politico/';
+            }
+
+
+
 
             const loginLink = document.getElementById('loginLink');
             const accessToken = localStorage.getItem('accessToken');

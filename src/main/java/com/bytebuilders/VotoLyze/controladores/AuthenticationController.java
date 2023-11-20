@@ -55,18 +55,21 @@ public class AuthenticationController {
         System.out.println(userLogin);
 
         String token;
+        String tipoUsuario;
 
 
 
         if (userLogin != null) {
             token = tokenService.generateToken((Eleitor) auth.getPrincipal());
+            tipoUsuario = "eleitor";
         }
         else {
             token = tokenService.politicoGenerateToken((Politico) auth.getPrincipal());
+            tipoUsuario = "politico";
         }
 
 
-        return ResponseEntity.ok(new LoginResponseDTO(token));
+        return ResponseEntity.ok(new LoginResponseDTO(token, tipoUsuario));
     }
 
     @PostMapping("/register")

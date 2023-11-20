@@ -3,6 +3,7 @@
 
 <head>
   <script>
+
     function handleSubmit(e) {
       const emailInput = document.getElementById('email').value;
       const passwordInput = document.getElementById('password').value;
@@ -34,6 +35,9 @@
                 console.log(data)
                 localStorage.setItem('accessToken', data["token"]);
                 localStorage.setItem('userEmail', emailInput);
+                localStorage.setItem('tipoUsuario', data['tipoUsuario']);
+
+
                 console.log(localStorage);
                 window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
               })

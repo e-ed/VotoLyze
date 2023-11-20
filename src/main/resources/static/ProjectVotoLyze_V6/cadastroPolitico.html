@@ -43,6 +43,50 @@
     // Call the function to fetch data when the page loads
     window.onload = fetchData;
 
+    function handleSubmit(e) {
+
+      const emailInput = document.getElementById('email').value;
+      const passwordInput = document.getElementById('password').value;
+      const CPF = document.getElementById('CPF').value;
+      const sexo = document.querySelector('input[name="gender"]:checked').value;
+      const dataNascimento = document.getElementById('dataNascimento').value;
+      const nome = document.getElementById('nome').value;
+
+
+
+      const data = {
+        "login": emailInput,
+        "password": passwordInput,
+        "CPF": CPF,
+        "sexo": sexo,
+        "dataNascimento": dataNascimento,
+        "nome": nome
+      };
+
+      fetch('/auth/politico/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+              .then(response => {
+                if (response.ok) {
+                  return response.json();
+                }
+                throw new Error('Network response was not ok.');
+              })
+              .then(data => {
+                console.log(data)
+                window.alert('Cadastro realizado com sucesso!');
+                window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
+              })
+              .catch(error => {
+                console.error('There was a problem registering the user:', error);
+              });
+
+    }
+
 
   </script>
   <meta charset="utf-8">
@@ -186,11 +230,11 @@
         <div class="row justify-content-center mt-4">
 
           <div class="col-lg-9">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+            <form role="form" class="php-email-form">
               <div class="row">
                 <div class="col-md-6 form-group">
                   <p>Nome: </p>
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Seu Nome" required>
+                  <input type="text" name="name" class="form-control" id="nome" placeholder="Seu Nome" required>
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
                   <p>Email: </p>
@@ -204,13 +248,13 @@
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
                   <p>Data de Nascimento: </p>
-                  <input type="date" class="form-control" name="date" id="date" required>
+                  <input type="date" class="form-control" name="dataNascimento" id="dataNascimento" required>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-6 form-group">
                   <p>Início de mandato: </p>
-                  <input type="date" class="form-control" name="inicioMandato" id="date" required>
+                  <input type="date" class="form-control" name="inicioMandato" id="inicioMandato">
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
                   <p>Partido: </p>
@@ -227,6 +271,21 @@
                 <div class="col-md-6 form-group mt-3 mt-md-0 col-lg-6 text-center">
                   <label for="contactChoice2">Prefeito</label>
                   <input type="radio" name="tipoPol" value="prefeito" required>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 form-group col-lg-6 ">
+              <p>CPF </p>
+              <input type="text" class="form-control" name="CPF" id="CPF" placeholder="111.111.111-11" required>
+
+                  <p>Sexo:</p>
+                  <label for="male">Masculino:</label>
+                  <input type="radio" id="male" name="gender" value="male">
+                  <br>
+                  <label for="female">Feminino:</label>
+                  <input type="radio" id="female" name="gender" value="female">
+                  <br>
+
                 </div>
               </div>
               <div class="my-3">

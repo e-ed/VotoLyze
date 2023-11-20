@@ -59,6 +59,9 @@
 
       const inicioMandato = document.getElementById("inicioMandato").value;
 
+      const tipoCandidatura = document.querySelector('input[name="tipoCandidatura"]:checked').value;
+
+
 
 
       const data = {
@@ -72,6 +75,7 @@
           id: partidoId
         },
         "inicioMandato": inicioMandato,
+        "tipoCandidatura": tipoCandidatura
       };
 
       fetch('/auth/politico/register', {
@@ -277,11 +281,11 @@
               <div class="row">
                 <div class="col-md-6 form-group col-lg-6 text-center">
                   <label for="contactChoice1 ">Vereador</label>
-                  <input type="radio" name="tipoPol" class="" value="vereador" required>
+                  <input type="radio" name="tipoCandidatura" class="" value="VEREADOR" required>
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0 col-lg-6 text-center">
                   <label for="contactChoice2">Prefeito</label>
-                  <input type="radio" name="tipoPol" value="prefeito" required>
+                  <input type="radio" name="tipoCandidatura" value="PREFEITO" required>
                 </div>
               </div>
               <div class="row">

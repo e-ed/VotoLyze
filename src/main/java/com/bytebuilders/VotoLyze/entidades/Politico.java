@@ -11,7 +11,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "POLITICOS")
-public class Politico extends Usuario implements UserDetails {
+public class Politico implements UserDetails {
 
     @OneToOne
     @JoinColumn(name="FK_PARTIDOS_PRT_ID", referencedColumnName = "PRT_ID")

@@ -1,6 +1,7 @@
 package com.bytebuilders.VotoLyze.config;
 
 import com.bytebuilders.VotoLyze.repositorios.EleitoresRepository;
+import com.bytebuilders.VotoLyze.repositorios.PoliticoRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +26,9 @@ public class SecurityFilter extends OncePerRequestFilter {
     
     @Autowired
     EleitoresRepository eleitoresRepository;
+
+    @Autowired
+    PoliticoRepository politicoRepository;
     
 
     @Override
@@ -32,7 +36,12 @@ public class SecurityFilter extends OncePerRequestFilter {
        var token = this.recoverToken(request);
        if (token != null) {
            var login = tokenService.validateToken(token);
-           UserDetails user = eleitoresRepository.findByEmail(login);
+           UserDetails user = null;
+           user = eleitoresRepository.findByEmail(login);
+           if (user == null) {
+               user = politicoRepository.findByEmail(login);
+           }
+
            
            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
            SecurityContextHolder.getContext().setAuthentication(authentication);

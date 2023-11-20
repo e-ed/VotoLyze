@@ -51,8 +51,19 @@ public class AuthenticationController {
         var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
         var auth = this.authenticationManager.authenticate(userPassword);
 
+        var userLogin = eleitoresRepository.findByEmailIgnoreCase(data.login());
+        System.out.println(userLogin);
 
-        var token = tokenService.generateToken((Eleitor) auth.getPrincipal());
+        String token;
+
+
+
+        if (userLogin != null) {
+            token = tokenService.generateToken((Eleitor) auth.getPrincipal());
+        }
+        else {
+            token = tokenService.politicoGenerateToken((Politico) auth.getPrincipal());
+        }
 
 
         return ResponseEntity.ok(new LoginResponseDTO(token));

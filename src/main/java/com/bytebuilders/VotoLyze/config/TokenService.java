@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 import com.bytebuilders.VotoLyze.entidades.Politico;
-import com.bytebuilders.VotoLyze.entidades.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -86,4 +85,20 @@ public class TokenService {
     }
 
 
+    public String politicoGenerateToken(Politico politico) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            String token = JWT.create()
+                    .withIssuer("votolyze").
+                    withSubject(politico.getEmail())
+                    .withExpiresAt(genExpirationDate())
+                    .sign(algorithm);
+
+            return token;
+
+        } catch (JWTCreationException exc) {
+            throw new RuntimeException("JWT generation error - " + exc);
+        }
+
+    }
 }

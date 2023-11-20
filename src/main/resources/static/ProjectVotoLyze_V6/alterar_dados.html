@@ -13,7 +13,6 @@
         }
 
 
-
         let userData = {}
         let oldEmail;
         document.addEventListener("DOMContentLoaded", function (event) {
@@ -42,8 +41,6 @@
 
             const userEmail = localStorage['userEmail']; // Assuming you have the user's email stored in localStorage
             const token = localStorage['accessToken']; // Replace with your actual Bearer token
-
-
 
 
             const headers = new Headers();
@@ -82,7 +79,7 @@
                     CPF.value = `${data.cpf}`
 
                     const inicioMandato = document.getElementById('inicioMandatoInput');
-                    inicioMandato.value = `${userData.inicioMandato}`;
+                    //inicioMandato.value = `${userData.inicioMandato}`;
 
                 })
                 .catch(error => {
@@ -99,22 +96,7 @@
 
 
             if (tipoUsuario === 'politico') {
-                let cpfElement = document.getElementById("CPF");
-                let enviarButton = document.querySelector(".btn-enviar");
 
-                var newElement = `<li><i class="bi bi-chevron-right"></i> <strong>Tipo de candidatura:</strong> <input class="form-control" type="text" id="tipoCandidaturaInput" value=""></li>
-                <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>Inicio do Mandato:</strong>
-                    <input class="form-control" type="text" id="inicioMandatoInput" value="">
-                </li>
-                <li>
-                    <i class="bi bi-chevron-right"></i>
-                    <strong>Partido:</strong>
-                    <input class="form-control" type="text" id="partidoInput" value="">
-                </li>`;
-
-                cpfElement.insertAdjacentHTML('afterend', newElement);
 
 
             }
@@ -345,47 +327,75 @@
                         <div class="col-lg-8">
                             <form id="myForm">
 
-                            <ul>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Nome: </strong> <input
-                                        class="form-control"
-                                        type="text"
-                                        id="nome"/>
-                                </li>
+                                <ul>
+                                    <li><i class="bi bi-chevron-right"></i> <strong>Nome: </strong> <input
+                                            class="form-control"
+                                            type="text"
+                                            id="nome"/>
+                                    </li>
 
-                                <li>
-                                    <i class="bi bi-chevron-right"></i>
-                                    <strong>Sexo:</strong>
+                                    <li>
+                                        <i class="bi bi-chevron-right"></i>
+                                        <strong>Sexo:</strong>
+                                        <br>
+                                        <ul>
+                                            <li>
+                                                <label for="male">Masculino:</label>
+                                                <input type="radio" id="male" name="gender" value="male">
+                                            </li>
+                                            <li>
+                                                <label for="female">Feminino:</label>
+                                                <input type="radio" id="female" name="gender" value="female">
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <input
+
+                                            class="form-control" type="date" id="dataNascimento" value=""/></li>
+                                    <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <input
+                                            class="form-control"
+                                            id="emailInput"
+                                            value=""/>
+                                    </li>
+                                    <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input
+                                            class="form-control"
+                                            id="CPF"
+                                            value=""/></li>
                                     <br>
-                                    <ul>
-                                        <li>
-                                            <label for="male">Masculino:</label>
-                                            <input type="radio" id="male" name="gender" value="male">
-                                        </li>
-                                        <li>
-                                            <label for="female">Feminino:</label>
-                                            <input type="radio" id="female" name="gender" value="female">
-                                        </li>
-                                    </ul>
+                                    <li id="tipoCandidaturaLi" style="display: ;">
+                                        <i class="bi bi-chevron-right"></i>
+                                        <strong>Tipo de candidatura:</strong>
+                                        <div class="row mt-3">
+                                            <div class="col-md-6 form-group text-center">
+                                                <label for="contactChoice1">Vereador</label>
+                                                <input type="radio" name="tipoCandidatura" class="form-control" value="VEREADOR" required>
+                                            </div>
+                                            <div class="col-md-6 form-group mt-3 mt-md-0 col-lg-6 text-center">
+                                                <label for="contactChoice2">Prefeito</label>
+                                                <input type="radio" name="tipoCandidatura" class="form-control" value="PREFEITO" required>
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li> <i class="bi bi-chevron-right"></i> <strong>Início de mandato: </strong>
+
+                                        <input type="date" class="form-control" name="inicioMandato" id="inicioMandato">
+                                    </li>
+
+
+                                <li> <i class="bi bi-chevron-right"></i> <strong>Partido:</strong>
+                                    
+                                    <select required class="form-select" id="mySelect" name="partido">
+
+                                    </select>
                                 </li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <input
 
-                                        class="form-control" type="date" id="dataNascimento" value=""/></li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <input
-                                        class="form-control"
-                                        id="emailInput"
-                                        value=""/>
-                                </li>
-                                <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input
-                                        class="form-control"
-                                        id="CPF"
-                                        value=""/></li>
-                                <br>
-                                <button type="submit" class="btn btn-enviar btn-lg" >Enviar</button>
+                                    <button type="submit" class="btn btn-enviar btn-lg">Enviar</button>
 
-                                <br> <br>
+                                    <br> <br>
 
 
-                            </ul>
+                                </ul>
                             </form>
                         </div>
 

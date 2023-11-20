@@ -16,7 +16,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "ELEITORES")
-public class Eleitor implements UserDetails {
+public class Eleitor extends Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)

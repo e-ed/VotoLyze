@@ -1,6 +1,13 @@
 package com.bytebuilders.VotoLyze.entidades;
 
-import jakarta.persistence.*;
+
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,51 +16,27 @@ import java.sql.Date;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
-@Table(name = "POLITICOS")
-public class Politico extends Usuario implements UserDetails {
 
-    @OneToOne
-    @JoinColumn(name="FK_PARTIDOS_PRT_ID", referencedColumnName = "PRT_ID")
-    private Partido partido;
+public class Usuario implements UserDetails {
 
-    @Column(name="PLT_TIPO_CANDIDATURA", nullable = false)
-
-    private String tipoCandidatura;
-
-    @Column(name="PLT_INICIO_MANDATO")
-    private Date inicioMandato;
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "USR_ID", nullable = false)
-    private Integer id;
-
-    @Column(name = "USR_NOME", nullable = false)
     private String nome;
 
-    @Column(name = "USR_SEXO", nullable = false)
+
     private char sexo;
 
-    @Column(name = "USR_DATA_NASCIMENTO", nullable = false)
+
     private Date dataNascimento;
 
-    @Column(name = "USR_EMAIL", nullable = false)
+
     private String email;
 
-    @Column(name = "USR_CPF", nullable = false)
+
     private String CPF;
 
-    @Column(name = "USR_SENHA", nullable = false)
+
     private String senha;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -104,29 +87,6 @@ public class Politico extends Usuario implements UserDetails {
     }
 
 
-    public String getTipoCandidatura() {
-        return tipoCandidatura;
-    }
-
-    public void setTipoCandidatura(String tipoCandidatura) {
-        this.tipoCandidatura = tipoCandidatura;
-    }
-
-    public Date getInicioMandato() {
-        return inicioMandato;
-    }
-
-    public void setInicioMandato(Date inicioMandato) {
-        this.inicioMandato = inicioMandato;
-    }
-
-    public Partido getPartido() {
-        return partido;
-    }
-
-    public void setPartido(Partido partido) {
-        this.partido = partido;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

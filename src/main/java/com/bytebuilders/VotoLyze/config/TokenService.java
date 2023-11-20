@@ -12,6 +12,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
+import com.bytebuilders.VotoLyze.entidades.Politico;
+import com.bytebuilders.VotoLyze.entidades.Usuario;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,12 +27,12 @@ public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
 
-    public String generateToken(Eleitor eleitor) {
+    public String generateToken(Eleitor usuario) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
                     .withIssuer("votolyze").
-                    withSubject(eleitor.getEmail())
+                    withSubject(usuario.getEmail())
                     .withExpiresAt(genExpirationDate())
                     .sign(algorithm);
 
@@ -41,6 +43,7 @@ public class TokenService {
         }
 
     }
+
 
     public String validateToken(String token) {
         try {

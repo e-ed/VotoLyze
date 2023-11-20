@@ -113,8 +113,17 @@
 
             if (tipoUsuario === 'politico') {
                 document.getElementById("firstHiddenInput").style.visibility = 'visible';
+                document.getElementById("firstHiddenInput").style.display = 'block';
+                document.getElementById("firstHiddenInput").enable();
+
                 document.getElementById("secondHiddenInput").style.visibility = 'visible';
+                document.getElementById("secondHiddenInput").style.display = 'block';
+                document.getElementById("secondHiddenInput").enable();
+
                 document.getElementById("thirdHiddenInput").style.visibility = 'visible';
+                document.getElementById("thirdHiddenInput").style.display = 'block';
+                document.getElementById("thirdHiddenInput").enable();
+
 
                 pegarPartidos();
                 document.getElementById('inicioMandato').value = userData.inicioMandato;
@@ -422,7 +431,7 @@
                                             id="CPF"
                                             value=""/></li>
                                     <br>
-                                    <li id="firstHiddenInput" style="visibility: hidden">
+                                    <li id="firstHiddenInput" disabled style="visibility: hidden; display: none">
                                         <i class="bi bi-chevron-right"></i>
                                         <strong>Tipo de candidatura:</strong>
                                         <br>
@@ -438,15 +447,15 @@
                                         </ul>
                                     </li>
 
-                                    <li id="secondHiddenInput" style="visibility: hidden"> <i class="bi bi-chevron-right"></i> <strong>Início de mandato: </strong>
+                                    <li id="secondHiddenInput" disabled style="visibility: hidden; display: none"> <i class="bi bi-chevron-right"></i> <strong>Início de mandato: </strong>
 
                                         <input type="date" class="form-control" name="inicioMandato" id="inicioMandato">
                                     </li>
 
 
-                                <li id="thirdHiddenInput" style="visibility: hidden"> <i class="bi bi-chevron-right"></i> <strong>Partido:</strong>
+                                <li id="thirdHiddenInput" disabled style="visibility: hidden; display: none"> <i class="bi bi-chevron-right"></i> <strong>Partido:</strong>
 
-                                    <select required class="form-select" id="mySelect" name="partido">
+                                    <select class="form-select" id="mySelect" name="partido">
 
                                     </select>
                                 </li>

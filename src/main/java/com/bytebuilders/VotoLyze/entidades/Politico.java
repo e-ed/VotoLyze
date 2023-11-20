@@ -14,11 +14,12 @@ import java.util.List;
 public class Politico implements UserDetails {
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name="FK_PARTIDOS_PRT_ID")
+    @JoinColumn(name="FK_PARTIDOS_PRT_ID", referencedColumnName = "PRT_ID")
     private Partido partido;
 
     @Column(name="PLT_TIPO_CANDIDATURA", nullable = false)
-    private TipoCandidatura tipoCandidatura;
+
+    private String tipoCandidatura;
 
     @Column(name="PLT_INICIO_MANDATO")
     private Date inicioMandato;
@@ -103,11 +104,11 @@ public class Politico implements UserDetails {
     }
 
 
-    public TipoCandidatura getTipoCandidatura() {
+    public String getTipoCandidatura() {
         return tipoCandidatura;
     }
 
-    public void setTipoCandidatura(TipoCandidatura tipoCandidatura) {
+    public void setTipoCandidatura(String tipoCandidatura) {
         this.tipoCandidatura = tipoCandidatura;
     }
 
@@ -117,6 +118,14 @@ public class Politico implements UserDetails {
 
     public void setInicioMandato(Date inicioMandato) {
         this.inicioMandato = inicioMandato;
+    }
+
+    public Partido getPartido() {
+        return partido;
+    }
+
+    public void setPartido(Partido partido) {
+        this.partido = partido;
     }
 
     @Override

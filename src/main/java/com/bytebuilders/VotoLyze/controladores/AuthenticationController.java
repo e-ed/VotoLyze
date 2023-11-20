@@ -3,9 +3,12 @@ package com.bytebuilders.VotoLyze.controladores;
 import com.bytebuilders.VotoLyze.config.TokenService;
 import com.bytebuilders.VotoLyze.entidades.*;
 import com.bytebuilders.VotoLyze.repositorios.EleitoresRepository;
+import com.bytebuilders.VotoLyze.repositorios.PartidoRepository;
 import com.bytebuilders.VotoLyze.repositorios.PoliticoRepository;
 import jakarta.validation.Valid;
 import java.sql.Date;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -39,6 +42,9 @@ public class AuthenticationController {
 
     @Autowired
     PoliticoRepository politicoRepository;
+
+    @Autowired
+    PartidoRepository partidoRepository;
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
@@ -80,6 +86,8 @@ public class AuthenticationController {
             return ResponseEntity.badRequest().build();
         }
 
+        System.out.println(politicoRegisterDTO);
+
         String encryptedPassword = new BCryptPasswordEncoder().encode(politicoRegisterDTO.password());
         Politico politico = new Politico();
         politico.setEmail(politicoRegisterDTO.login());
@@ -89,7 +97,28 @@ public class AuthenticationController {
         politico.setCPF(politicoRegisterDTO.CPF());
         politico.setDataNascimento(Date.valueOf(politicoRegisterDTO.dataNascimento().toLocalDate().plusDays(1)));
         politico.setInicioMandato(politicoRegisterDTO.inicioMandato());
-        politico.setTipoCandidatura(politicoRegisterDTO.tipoCandidatura());
+
+
+
+        switch (politicoRegisterDTO.tipoCandidatura()) {
+            case VEREADOR:
+                politico.setTipoCandidatura(TipoCandidatura.VEREADOR.getValue());
+
+                break;
+            case PREFEITO:
+                politico.setTipoCandidatura(TipoCandidatura.PREFEITO.getValue());
+                break;
+        }
+
+
+        System.out.println("Partido: " + politicoRegisterDTO.partido());
+        Optional<Partido> partido = partidoRepository.findById(politicoRegisterDTO.partido().getId());
+
+        politico.setPartido(partido.get());
+
+        System.out.println(politico.getPartido().getId());
+        System.out.println(politico.getPartido().getNome());
+        System.out.println(politico.getPartido().getSigla());
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body( politicoRepository.save(politico));

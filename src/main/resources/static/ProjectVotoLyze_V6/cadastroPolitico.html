@@ -3,23 +3,45 @@
 
 <head>
 <script>
-    document.addEventListener("DOMContentLoaded", function(event) {
+    // document.addEventListener("DOMContentLoaded", function(event) {
+    //
+    //   const loginLink = document.getElementById('loginLink');
+    //   const accessToken = localStorage.getItem('accessToken');
+    //
+    //   console.log("token: " + accessToken)
+    //
+    //   // Check if accessToken exists
+    //   if (accessToken) {
+    //
+    //     loginLink.innerHTML = `<a href="painel.html"> ${localStorage['userEmail']} </a>`;
+    //   } else {
+    //
+    //     loginLink.innerHTML = `<a href="login.html">Login</a>`;
+    //   }
+    //
+    // });
 
-      const loginLink = document.getElementById('loginLink');
-      const accessToken = localStorage.getItem('accessToken');
+    // Function to fetch data from the server
+    function fetchData() {
+      fetch('http://localhost:8080/partido')
+              .then(response => response.json())
+              .then(data => {
+                // Get reference to the select element
+                const select = document.getElementById('mySelect');
 
-      console.log("token: " + accessToken)
+                // Loop through the data and create options
+                data.forEach(item => {
+                  const option = document.createElement('option');
+                  option.value = item.id; // Assuming 'id' is a property in your data
+                  option.textContent = item.nome + ' - ' +  item.sigla; // Change 'name' to the property you want to display
+                  select.appendChild(option);
+                });
+              })
+              .catch(error => console.error('Error fetching data:', error));
+    }
 
-      // Check if accessToken exists
-      if (accessToken) {
-
-        loginLink.innerHTML = `<a href="painel.html"> ${localStorage['userEmail']} </a>`;
-      } else {
-
-        loginLink.innerHTML = `<a href="login.html">Login</a>`;
-      }
-
-    });
+    // Call the function to fetch data when the page loads
+    window.onload = fetchData;
 
 
   </script>
@@ -48,6 +70,19 @@
 
   <!-- Template Main CSS File -->
   <link href="assets/css/main.css" rel="stylesheet">
+
+  <style>
+    #mySelect {
+      background-color: #161718;
+      color: white;
+    }
+
+
+    option {
+      color: white;
+    }
+
+  </style>
 
 
 </head>
@@ -79,7 +114,7 @@
               <li><a href="cadastroEleitor.html">Cadastro Eleitor</a></li>
               <li><a href="cadastroPolitico.html">Cadastro Político</a></li>
             </ul>
-            <li id="loginLink">Carregando</li>
+            <li id="loginLink"></li>
         </ul>
       </nav><!-- .navbar -->
 
@@ -174,12 +209,14 @@
               </div>
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <p>Naturalide: </p>
-                  <input type="text" class="form-control" name="naturalidade" id="naturalidade" placeholder="Sua Naturalide" required>
+                  <p>Início de mandato: </p>
+                  <input type="date" class="form-control" name="inicioMandato" id="date" required>
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
                   <p>Partido: </p>
-                  <input type="text" class="form-control" name="partido" id="partido" required>
+                  <select required class="form-select" id="mySelect" name="partido">
+
+                  </select>
                 </div>
               </div>
               <div class="row">

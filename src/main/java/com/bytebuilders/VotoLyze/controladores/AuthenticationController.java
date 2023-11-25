@@ -48,10 +48,10 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data) {
-        var userPassword = new UsernamePasswordAuthenticationToken(data.login(), data.password());
+        var userPassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());
         var auth = this.authenticationManager.authenticate(userPassword);
 
-        var userLogin = eleitoresRepository.findByEmailIgnoreCase(data.login());
+        var userLogin = eleitoresRepository.findByEmailIgnoreCase(data.getLogin());
         System.out.println(userLogin);
 
         String token;
@@ -68,26 +68,30 @@ public class AuthenticationController {
             tipoUsuario = "politico";
         }
 
+        var loginResponseDTO = new LoginResponseDTO();
+        loginResponseDTO.setToken(token);
+        loginResponseDTO.setTipoUsuario(tipoUsuario);
 
-        return ResponseEntity.ok(new LoginResponseDTO(token, tipoUsuario));
+
+        return ResponseEntity.ok(loginResponseDTO);
     }
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody @Valid RegisterDTO registerDTO) {
         System.out.println(registerDTO);
 
-        if (eleitoresRepository.findByEmail(registerDTO.login()) != null) {
+        if (eleitoresRepository.findByEmail(registerDTO.getLogin()) != null) {
             return ResponseEntity.badRequest().build();
         }
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.password());
+        String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.getPassword());
         Eleitor eleitor = new Eleitor();
-        eleitor.setEmail(registerDTO.login());
+        eleitor.setEmail(registerDTO.getLogin());
         eleitor.setSenha(encryptedPassword);
-        eleitor.setNome(registerDTO.nome());
-        eleitor.setSexo(registerDTO.sexo().charAt(0));
-        eleitor.setCPF(registerDTO.CPF());
-        eleitor.setDataNascimento(Date.valueOf(registerDTO.dataNascimento().toLocalDate().plusDays(1)));
+        eleitor.setNome(registerDTO.getNome());
+        eleitor.setSexo(registerDTO.getSexo().charAt(0));
+        eleitor.setCPF(registerDTO.getCPF());
+        eleitor.setDataNascimento(Date.valueOf(registerDTO.getDataNascimento().toLocalDate().plusDays(1)));
 
 
         return ResponseEntity.status(HttpStatus.CREATED).body( eleitoresRepository.save(eleitor));
@@ -97,25 +101,30 @@ public class AuthenticationController {
     public ResponseEntity politicianRegister(@RequestBody @Valid PoliticoRegisterDTO politicoRegisterDTO) {
 
 
-        if (politicoRepository.findByEmail(politicoRegisterDTO.login()) != null) {
-            return ResponseEntity.badRequest().build();
+        if (politicoRepository.findByEmail(politicoRegisterDTO.getLogin()) != null) {
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("already registered!");
         }
 
-        System.out.println(politicoRegisterDTO);
+        System.out.println("--dados--");
+        System.out.println(politicoRegisterDTO.getLogin());
+        System.out.println(politicoRegisterDTO.getPassword());
+        System.out.println(politicoRegisterDTO.getCPF());
+        System.out.println(politicoRegisterDTO.getSexo());
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(politicoRegisterDTO.password());
+
+        String encryptedPassword = new BCryptPasswordEncoder().encode(politicoRegisterDTO.getPassword());
         Politico politico = new Politico();
-        politico.setEmail(politicoRegisterDTO.login());
+        politico.setEmail(politicoRegisterDTO.getLogin());
         politico.setSenha(encryptedPassword);
-        politico.setNome(politicoRegisterDTO.nome());
-        politico.setSexo(politicoRegisterDTO.sexo().charAt(0));
-        politico.setCPF(politicoRegisterDTO.CPF());
-        politico.setDataNascimento(Date.valueOf(politicoRegisterDTO.dataNascimento().toLocalDate().plusDays(1)));
-        politico.setInicioMandato(politicoRegisterDTO.inicioMandato());
+        politico.setNome(politicoRegisterDTO.getNome());
+        politico.setSexo(politicoRegisterDTO.getSexo().charAt(0));
+        politico.setCPF(politicoRegisterDTO.getCPF());
+        politico.setDataNascimento(Date.valueOf(politicoRegisterDTO.getDataNascimento().toLocalDate().plusDays(1)));
+        politico.setInicioMandato(politicoRegisterDTO.getInicioMandato());
 
 
 
-        switch (politicoRegisterDTO.tipoCandidatura()) {
+        switch (politicoRegisterDTO.getTipoCandidatura()) {
             case VEREADOR:
                 politico.setTipoCandidatura(TipoCandidatura.VEREADOR.getValue());
 
@@ -126,8 +135,8 @@ public class AuthenticationController {
         }
 
 
-        System.out.println("Partido: " + politicoRegisterDTO.partido());
-        Optional<Partido> partido = partidoRepository.findById(politicoRegisterDTO.partido().getId());
+        System.out.println("Partido: " + politicoRegisterDTO.getPartido());
+        Optional<Partido> partido = partidoRepository.findById(politicoRegisterDTO.getPartido().getId());
 
         politico.setPartido(partido.get());
 

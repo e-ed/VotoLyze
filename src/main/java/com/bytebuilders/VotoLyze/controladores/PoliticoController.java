@@ -54,16 +54,16 @@ public class PoliticoController {
         if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         var updatedUser = new Politico();
 
-        updatedUser.setEmail(registerDTO.login());
+        updatedUser.setEmail(registerDTO.getLogin());
         updatedUser.setSenha(toBeUpdated.get().getSenha());
-        updatedUser.setNome(registerDTO.nome());
-        updatedUser.setSexo(registerDTO.sexo().charAt(0));
-        updatedUser.setCPF(registerDTO.CPF());
-        updatedUser.setDataNascimento(Date.valueOf(registerDTO.dataNascimento().toLocalDate().plusDays(1)));
+        updatedUser.setNome(registerDTO.getNome());
+        updatedUser.setSexo(registerDTO.getSexo().charAt(0));
+        updatedUser.setCPF(registerDTO.getCPF());
+        updatedUser.setDataNascimento(Date.valueOf(registerDTO.getDataNascimento().toLocalDate().plusDays(1)));
         updatedUser.setId(toBeUpdated.get().getId());
-        updatedUser.setInicioMandato(registerDTO.inicioMandato());
-        updatedUser.setPartido(registerDTO.partido());
-        updatedUser.setTipoCandidatura(registerDTO.tipoCandidatura().getValue());
+        updatedUser.setInicioMandato(registerDTO.getInicioMandato());
+        updatedUser.setPartido(registerDTO.getPartido());
+        updatedUser.setTipoCandidatura(registerDTO.getTipoCandidatura().getValue());
 
 
         return ResponseEntity.status(HttpStatus.OK).body(politicoServices.save(updatedUser));
@@ -129,7 +129,7 @@ public class PoliticoController {
         var updatedUser = new Politico();
         updatedUser.setEmail(toBeUpdated.get().getEmail());
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.password());
+        String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.getPassword());
         updatedUser.setSenha(encryptedPassword);
 
         updatedUser.setNome(toBeUpdated.get().getNome());

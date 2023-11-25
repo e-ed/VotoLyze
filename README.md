@@ -22,3 +22,4 @@ Ao rodar o projeto, todas as tabelas serão criadas e serão feitas algumas inse
 
 Caso você reinicie o servidor, todos os cadastros serão removidos.
 
+Entrando no endereço http://localhost:8080/ você será redirecionado para a página inicial.

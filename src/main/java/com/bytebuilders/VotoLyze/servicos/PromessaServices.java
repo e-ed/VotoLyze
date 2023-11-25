@@ -17,4 +17,8 @@ public class PromessaServices {
     public List<Promessa> findByPoliticoId(Integer id) {
         return promessaRepository.findByPoliticoId(id);
     }
+
+    public Promessa save(Promessa promessa) {
+        return promessaRepository.save(promessa);
+    }
 }

@@ -14,4 +14,6 @@ public interface PromessaRepository extends JpaRepository<Promessa, Integer> {
 
     @Query("SELECT p FROM Promessa p WHERE p.politico.id = :politicoId")
     List<Promessa> findByPoliticoId(@Param("politicoId") Integer politicoId);
+
+
 }

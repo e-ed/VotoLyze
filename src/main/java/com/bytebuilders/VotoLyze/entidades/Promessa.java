@@ -10,6 +10,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
+import java.sql.Date;
+
 
 @Entity
 @Table(name = "PROMESSAS")
@@ -31,7 +33,7 @@ public class Promessa {
     private String descricao;
 
     @Column(name="PRM_DATA", nullable = false)
-    private String data;
+    private Date data;
 
 
     public Integer getId() {
@@ -66,11 +68,11 @@ public class Promessa {
         this.descricao = descricao;
     }
 
-    public String getData() {
+    public Date getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Date data) {
         this.data = data;
     }
 }

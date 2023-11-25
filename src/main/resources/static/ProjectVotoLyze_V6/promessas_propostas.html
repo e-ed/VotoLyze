@@ -142,12 +142,51 @@
 
 
 
-        handleClick() {
-            const novaPropostaTitulo = document.getElementById("novaPropostaTitulo");
-            const novaPropostaDescricao = document.getElementById("novaPropostaDescricao");
-            const novaPropostaData = document.getElementById("novaPropostaData");
+        function handleClick() {
+            const novaPropostaTitulo = document.getElementById("novaPropostaTitulo").value;
+            const novaPropostaDescricao = document.getElementById("novaPropostaDescricao").value;
+            const novaPropostaData = document.getElementById("novaPropostaData").value;
 
-            
+
+
+            let novaProposta = {
+                "titulo": novaPropostaTitulo,
+                "descricao": novaPropostaDescricao,
+                "data": novaPropostaData,
+                "politico": {
+                    "id": userData.id
+                }
+            }
+
+            console.log(novaProposta);
+
+            const token = localStorage.getItem('accessToken'); // Replace with your actual Bearer token
+            const url = `http://localhost:8080/promessa/${userData.id}`;
+
+            fetch(url, {
+                method: 'POST', // Replace with your desired HTTP method (GET, POST, etc.)
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json' // Replace with your desired content type if needed
+                },
+                body: JSON.stringify(novaProposta) // Convert the object to JSON string
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle the fetched data here
+                    console.log('Data:', data);
+                    window.alert("Proposta inserida com sucesso!")
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
 
 
         }

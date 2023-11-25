@@ -12,7 +12,8 @@ Antes de iniciar o servidor, criar uma database chamada VOTOLYZE:
 
 Abrir a pasta do projeto no terminal e executar os comandos: 
 
-```mvn clean build```
+```mvn clean```
+```mvn install```
 
 ```mvn spring-boot:run```
 

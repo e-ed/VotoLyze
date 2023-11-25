@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script>
+        let userData = {}
+        let tipoUsuario = localStorage.getItem('tipoUsuario');
+
+        let fetchUrl;
+
+        if (tipoUsuario === 'eleitor') {
+            fetchUrl = 'http://localhost:8080/eleitor/';
+        } else {
+            fetchUrl = 'http://localhost:8080/politico/';
+        }
+
+        function userLogout() {
+            var answer = window.confirm("Deseja mesmo fazer logout?");
+            if (answer) {
+                localStorage.clear();
+                window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+
+
+
+
+            const loginLink = document.getElementById('loginLink');
+            const accessToken = localStorage.getItem('accessToken');
+
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const CPF = document.getElementById('CPF');
+            const sexo = document.getElementById('sexo');
+            const dataNascimento = document.getElementById('dataNascimento');
+            const nome = document.getElementById('nome');
+
+            console.log(accessToken)
+
+            // Check if accessToken exists
+            if (accessToken) {
+
+                loginLink.innerHTML = `<a href="painel.html"> ${localStorage['userEmail']} </a>`;
+            } else {
+
+                loginLink.innerHTML = `<a href="login.html">Login</a>`;
+            }
+
+
+            const userEmail = localStorage['userEmail']; // Assuming you have the user's email stored in localStorage
+            const token = localStorage['accessToken']; // Replace with your actual Bearer token
+
+            const headers = new Headers();
+            headers.append('Authorization', `Bearer ${token}`);
+
+            console.log(`${fetchUrl}${userEmail}`);
+
+
+            fetch(`${fetchUrl}${userEmail}`, {
+                headers: headers
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Work with the JSON data
+                    console.log('Data received:', data);
+                    userData = data;
+                    // You can process the 'data' here
+                    emailInput.innerHTML = `${data.email}`;
+                    nome.innerHTML = `${data.nome}`;
+                    sexo.innerHTML = `${data.sexo}` === 'M' ? 'Masculino' : "Feminino";
+                    dataNascimento.innerHTML = `${data.dataNascimento}`;
+                    CPF.innerHTML = `${data.cpf}`;
+
+                    if (tipoUsuario === 'politico') {
+                        let cpfElement = document.getElementById("CPF");
+                        let alterarSenhaBtn = document.getElementById("alterarSenhaBtn");
+                        let parentUl = cpfElement.parentElement.closest('ul');
+
+                        var newElement = `<li><i class="bi bi-chevron-right"></i> <strong>Tipo de candidatura:</strong> <span id="tipoCandidatura">${data.tipoCandidatura}</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>Inicio do Mandato:</strong> <span id="inicioMandato">${data.inicioMandato}</span></li>
+                <li><i class="bi bi-chevron-right"></i> <strong>Partido:</strong> <span id="partido">${data.partido.sigla} - ${data.partido.nome}</span></li>
+                <button class="btn btn-dark"> <a style="color: inherit;" href="promessas_propostas.html"> Promessas de campanha e propostas  </a></button><br><br>
+`;
+
+                        alterarSenhaBtn.insertAdjacentHTML('beforebegin', newElement);
+
+
+
+                    }
+
+
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                    // Handle errors here
+                });
+
+
+        });
+
+        function excluirPerfil() {
+            var answer = window.confirm("Deseja mesmo excluir seu perfil?");
+            if (answer) {
+                const accessToken = localStorage.getItem('accessToken');
+
+                const headers = new Headers();
+                headers.append('Authorization', `Bearer ${accessToken}`);
+
+                fetch(`${fetchUrl}${userData.id}`, {
+                    method: 'DELETE',
+                    headers: headers
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        window.alert('Usuário removido com sucesso!');
+                        // Handle the success response after deletion
+                        localStorage.clear();
+                        window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
+
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                        // Handle errors here
+                    });
+
+
+            } else {
+                console.log("nao excluir")
+            }
+        }
+
+        function alterarSenha() {
+            var element = document.getElementById("alterarSenhaBtn");
+            var newElement = '<br><br><br><p>Digite a nova senha:</p><input class="form-control" required type="password" id="novaSenha"/><br><br><button class="btn btn-dark" onclick="alterarSenha2()">Alterar senha</button><br><br><br><br>'
+            element.insertAdjacentHTML('afterend', newElement)
+        }
+
+        function alterarSenha2() {
+
+            var answer = window.confirm("Deseja mesmo alterar sua senha?");
+            if (answer) {
+                const accessToken = localStorage.getItem('accessToken');
+
+                const newPasswordData = {
+                    "login": userData.email,
+                    "password": document.getElementById("novaSenha").value
+                }
+
+                console.log(newPasswordData);
+
+                const headers = new Headers();
+                headers.append('Authorization', `Bearer ${accessToken}`);
+                headers.append('Content-Type', 'application/json');
+
+
+                fetch(`${fetchUrl}updatePassword/${userData.id}`, {
+                    method: 'PUT',
+                    headers: headers,
+                    body: JSON.stringify(newPasswordData)
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        window.alert('Senha alterada com sucesso!');
+                        // Handle the success response after deletion
+                        window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/painel.html");
+
+                    })
+                    .catch(error => {
+                        console.error('There was a problem with the fetch operation:', error);
+                        // Handle errors here
+                    });
+
+
+            } else {
+                console.log("nao alterar")
+            }
+        }
+
+
+    </script>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>VotoLyze</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/logo.jpg" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+
+        <a href="index.html" class="logo d-flex align-items-center  me-auto me-lg-0">
+            <!-- Uncomment the line below if you also wish to use an image logo -->
+            <img src="assets/img/logomenu.png" alt="" width="40px">
+            <!-- <i class="bi bi-camera"></i> -->
+            <h1>VotoLyze</h1>
+        </a>
+
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a href="index.html" class="active">Início</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="prefeitos.html">Prefeitos</a></li>
+                <li><a href="vereadores.html">Vereadores</a></li>
+                <li class="dropdown"><a href="#"><span>Cadastro</span> <i
+                        class="bi bi-chevron-down dropdown-indicator"></i></a>
+                    <ul>
+                        <li><a href="cadastroEleitor.html">Cadastro Eleitor</a></li>
+                        <li><a href="cadastroPolitico.html">Cadastro Político</a></li>
+                    </ul>
+                <li id="loginLink">Carregando</li>
+            </ul>
+        </nav><!-- .navbar -->
+
+        <div class="header-social-links">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+        </div>
+        <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+        <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+</header><!-- End Header -->
+
+
+<main id="main" data-aos="fade" data-aos-delay="1500">
+
+    <!-- ======= End Page Header ======= -->
+    <div class="page-header d-flex align-items-center">
+        <div class="container position-relative">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h2>Painel do usuário</h2>
+                </div>
+            </div>
+        </div>
+    </div><!-- End Page Header -->
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <div class="container">
+
+            <div class="row gy-4 justify-content-center">
+
+                <div class="col-lg-5 content">
+                    <h1 id="nome"></h1>
+
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <ul>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Sexo:</strong> <span id="sexo"></span>
+                                </li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <span
+                                        id="dataNascimento"></span></li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <span id="email">/span>
+                                </li>
+                                <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <span id="CPF"></span>
+                                </li>
+
+                                <button id="alterarSenhaBtn" class="btn btn-warning" onclick="alterarSenha()">Alterar
+                                    senha
+                                </button>
+                                <br> <br>
+                                <button class="btn btn-danger" onclick="excluirPerfil()">Excluir perfil</button>
+                                <br> <br>
+                                <button class="btn btn-info"><a style="color: inherit;" href="alterar_dados.html">Alterar
+                                    dados pessoais</a></button>
+                                <br> <br>
+                                <button class="btn btn-light"><a style="color: inherit;"
+                                                                 onclick="userLogout()">Logout</a></button>
+                                <br> <br>
+
+
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        </div>
+    </section><!-- End About Section -->
+
+</main><!-- End #main -->
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong><span>VotoLyze</span></strong>. Todos os direitos reservados.
+        </div>
+        <div class="credits">
+            Orgulhosamente desenvolvido por <a href="sobre.html">Byte Builders</a>
+        </div>
+    </div>
+</footer><!-- End Footer -->
+
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<div id="preloader">
+    <div class="line"></div>
+</div>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+
+</body>
+
+</html>

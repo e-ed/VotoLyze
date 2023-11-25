@@ -3,9 +3,13 @@
 Backend do projeto VotoLyze - Disciplina de Engenharia de Software 2 - IFSP Campus São João da Boa Vista
 
 # Requisitos
-Java 17, Maven
+Java 17, Maven, MySQL
 
 # Iniciar o servidor
+Antes de iniciar o servidor, criar uma database chamada VOTOLYZE:
+
+```create database VOTOLYZE;```
+
 Abrir a pasta do projeto no terminal e executar os comandos: 
 
 ```mvn clean build```

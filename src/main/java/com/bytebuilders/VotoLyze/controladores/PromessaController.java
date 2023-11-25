@@ -2,6 +2,7 @@ package com.bytebuilders.VotoLyze.controladores;
 
 
 import com.bytebuilders.VotoLyze.entidades.Politico;
+import com.bytebuilders.VotoLyze.entidades.Promessa;
 import com.bytebuilders.VotoLyze.servicos.PoliticoServices;
 import com.bytebuilders.VotoLyze.servicos.PromessaServices;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,8 +32,9 @@ public class PromessaController {
     public ResponseEntity<Object> findByPolitico(@PathVariable Integer id) {
         Optional<Politico> politico = politicoServices.findById(id);
 
-        if (politico.isPresent()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Politico nao encontrado!");
 
-        return ResponseEntity.status(HttpStatus.OK).body(promessaServices.findByPolitico(politico.get()));
+        if (!politico.isPresent()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Politico nao encontrado!");
+
+        return ResponseEntity.status(HttpStatus.OK).body(promessaServices.findByPoliticoId(id));
     }
 }

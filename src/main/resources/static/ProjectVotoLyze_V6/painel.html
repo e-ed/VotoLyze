@@ -85,7 +85,9 @@
 
                         var newElement = `<li><i class="bi bi-chevron-right"></i> <strong>Tipo de candidatura:</strong> <span id="tipoCandidatura">${data.tipoCandidatura}</span></li>
                 <li><i class="bi bi-chevron-right"></i> <strong>Inicio do Mandato:</strong> <span id="inicioMandato">${data.inicioMandato}</span></li>
-                <li><i class="bi bi-chevron-right"></i> <strong>Partido:</strong> <span id="partido">${data.partido.sigla} - ${data.partido.nome}</span></li>`;
+                <li><i class="bi bi-chevron-right"></i> <strong>Partido:</strong> <span id="partido">${data.partido.sigla} - ${data.partido.nome}</span></li>
+                <button class="btn btn-dark"> <a style="color: inherit;" href="promessas_propostas.html"> Promessas de campanha e propostas  </a></button><br><br>
+`;
 
                         alterarSenhaBtn.insertAdjacentHTML('beforebegin', newElement);
 

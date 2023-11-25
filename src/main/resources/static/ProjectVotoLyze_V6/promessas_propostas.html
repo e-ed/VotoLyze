@@ -4,6 +4,7 @@
 <head>
     <script>
         let userData = {}
+        let promessas = [];
         let tipoUsuario = localStorage.getItem('tipoUsuario');
 
         let fetchUrl;
@@ -69,6 +70,8 @@
 
                     nome.innerHTML = `${data.nome}`;
 
+                    updatePromessaDetails();
+
 
 
 
@@ -80,7 +83,75 @@
                 });
 
 
+
+
+
         });
+
+        // Function to fetch Promessa details by ID
+        async function fetchPromessaDetails(id) {
+            const token = localStorage.getItem('accessToken'); // Replace with your actual Bearer token
+            const url = `http://localhost:8080/promessa/${id}`;
+
+            try {
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    return data; // Return the fetched data
+                } else {
+                    throw new Error('Failed to fetch data');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Function to update HTML content with Promessa details
+        async function updatePromessaDetails() {
+            console.log("ID: " + userData.id);
+            const promessas = await fetchPromessaDetails(userData.id); // Fetch an array of Promessas for a user
+
+            if (promessas && Array.isArray(promessas)) {
+                const promessaListElement = document.getElementById('promessaList');
+
+                console.log(promessas);
+
+                for (const promessa of promessas) {
+
+
+                        const promessaDiv = document.createElement('div');
+                        promessaDiv.innerHTML = `
+                    <p><strong>Título:</strong> ${promessa.titulo}</p>
+                    <p><strong>Descrição:</strong> ${promessa.descricao}</p>
+                    <p><strong>Data:</strong> ${promessa.data}</p>
+                    <p><strong>Político:</strong> ${promessa.politico.nome}</p>
+                    <hr>
+                `;
+                        promessaListElement.appendChild(promessaDiv);
+
+                }
+            }
+        }
+
+
+
+        handleClick() {
+            const novaPropostaTitulo = document.getElementById("novaPropostaTitulo");
+            const novaPropostaDescricao = document.getElementById("novaPropostaDescricao");
+            const novaPropostaData = document.getElementById("novaPropostaData");
+
+            
+
+
+        }
+
 
 
 
@@ -111,6 +182,8 @@
 
     <!-- Template Main CSS File -->
     <link href="assets/css/main.css" rel="stylesheet">
+
+    <script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
 
 
 </head>
@@ -178,12 +251,37 @@
             <div class="row gy-4 justify-content-center">
 
                 <div class="col-lg-5 content">
-                    <h1 id="nome"></h1>
+                    <h1 id="nome"></h1> <br>
 
                     <div class="row">
-                        <div class="col-lg-8">
+                        <div id="promessaDetails">
+                            <h1>Promessas/propostas cadastradas</h1><br>
+                            <div id="promessaList"></div>
+                        </div>
+
+                        <div class="input-group" id="myDiv">
+                            <h2 style="color: white">Inserir nova promessa/proposta: </h2>
+                            <div class="col-md-12">
+                            <p>Título: </p> <br>
+                            <input type="text" placeholder="Titulo" class="form-control" id="novaPropostaTitulo"/> <br>
+                            </div>
+                            <div class="col-md-12">
+
+                            <p>Descrição: </p> <br>
+                            <input type="text" placeholder="Descrição" class="form-control" id="novaPropostaDescricao"/> <br>
+                            </div>
+                            <div class="col-md-6">
+
+                            <p>Data: </p> <br>
+                            <input type="date" placeholder="Data" class="form-control" id="novaPropostaData"/> <br>
+                            </div>
+
+
+
+                            <button onclick="handleClick()" class="btn btn-success">Inserir nova promessa/proposta</button>
 
                         </div>
+
 
                     </div>
                 </div>
@@ -193,6 +291,8 @@
 
         </div>
     </section><!-- End About Section -->
+
+
 
 </main><!-- End #main -->
 <!-- ======= Footer ======= -->

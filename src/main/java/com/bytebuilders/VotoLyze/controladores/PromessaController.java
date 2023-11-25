@@ -48,14 +48,14 @@ public class PromessaController {
     public ResponseEntity<Promessa> save(@RequestBody @Valid PromessaDTO promessaDTO) {
         System.out.println(promessaDTO);
         var novaPromessa = new Promessa();
-        var politico = politicoServices.findById(promessaDTO.politico().getId());
+        var politico = politicoServices.findById(promessaDTO.getPolitico().getId());
         System.out.println(politico.get().getNome());
 
-        novaPromessa.setTitulo(promessaDTO.titulo());
-        novaPromessa.setDescricao(promessaDTO.descricao());
-        novaPromessa.setData(Date.valueOf(promessaDTO.data().toLocalDate().plusDays(1)));
+        novaPromessa.setTitulo(promessaDTO.getTitulo());
+        novaPromessa.setDescricao(promessaDTO.getDescricao());
+        novaPromessa.setData(Date.valueOf(promessaDTO.getData().toLocalDate().plusDays(1)));
 
-        novaPromessa.setPolitico(promessaDTO.politico());
+        novaPromessa.setPolitico(promessaDTO.getPolitico());
         return ResponseEntity.status(HttpStatus.CREATED).body(promessaServices.save(novaPromessa));
 
 

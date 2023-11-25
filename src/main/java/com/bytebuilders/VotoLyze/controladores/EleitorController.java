@@ -51,12 +51,12 @@ public class EleitorController {
         if (toBeUpdated.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found");
         var updatedUser = new Eleitor();
 
-        updatedUser.setEmail(registerDTO.login());
+        updatedUser.setEmail(registerDTO.getLogin());
         updatedUser.setSenha(toBeUpdated.get().getSenha());
-        updatedUser.setNome(registerDTO.nome());
-        updatedUser.setSexo(registerDTO.sexo().charAt(0));
-        updatedUser.setCPF(registerDTO.CPF());
-        updatedUser.setDataNascimento(Date.valueOf(registerDTO.dataNascimento().toLocalDate().plusDays(1)));
+        updatedUser.setNome(registerDTO.getNome());
+        updatedUser.setSexo(registerDTO.getSexo().charAt(0));
+        updatedUser.setCPF(registerDTO.getCPF());
+        updatedUser.setDataNascimento(Date.valueOf(registerDTO.getDataNascimento().toLocalDate().plusDays(1)));
         updatedUser.setId(toBeUpdated.get().getId());
 
 
@@ -126,7 +126,7 @@ public class EleitorController {
         var updatedUser = new Eleitor();
         updatedUser.setEmail(toBeUpdated.get().getEmail());
 
-        String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.password());
+        String encryptedPassword = new BCryptPasswordEncoder().encode(registerDTO.getPassword());
         updatedUser.setSenha(encryptedPassword);
 
         updatedUser.setNome(toBeUpdated.get().getNome());

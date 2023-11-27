@@ -12,21 +12,8 @@ Antes de iniciar o servidor, criar uma database chamada VOTOLYZE:
 
 
 Para executar a aplicação, você pode: 
-- executar o JAR do projeto (mais fácil);
 - abrir o projeto em uma IDE, fazer a build e rodar a função main (VotoLyzeApplication.java);
 - buildar você mesmo pelo terminal com o Maven
-
-## Executar JAR do projeto
-O JAR do projeto com todas suas dependências está na pasta out\artifacts\VotoLyze_jar
-
-Abrindo esta pasta no terminal, você pode executá-lo da seguinte maneira:
-
-Windows:
-```java -jar .\VotoLyze.jar```
-
-Linux:
-```java -jar ./VotoLyze.jar```
-
 
 
 ## Build pelo terminal

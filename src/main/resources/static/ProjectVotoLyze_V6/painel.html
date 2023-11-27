@@ -144,10 +144,23 @@
             element.insertAdjacentHTML('afterend', newElement)
         }
 
+        function verificarSenhaValida(passwordInput) {
+            const regexPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-!@#$%^&*()_+={}\[\]:;,<.>/?]).{6,}$/;
+            if (!regexPattern.test(passwordInput)) {
+                return false;
+            } else {
+                return true
+            }
+        }
+
         function alterarSenha2() {
 
             var answer = window.confirm("Deseja mesmo alterar sua senha?");
             if (answer) {
+                if (!verificarSenhaValida(document.getElementById("novaSenha").value)) {
+                    window.alert("Senha inválida! \n Requisitos: 6 caracteres, 1 letra maiúscula, 1 minúscula, 1 dígito e um caractere especial")
+                    return;
+                }
                 const accessToken = localStorage.getItem('accessToken');
 
                 const newPasswordData = {

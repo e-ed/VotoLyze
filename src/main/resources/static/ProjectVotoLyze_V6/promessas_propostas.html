@@ -142,7 +142,8 @@
 
 
 
-        function handleClick() {
+        function handleClick(event) {
+            event.preventDefault();
             const novaPropostaTitulo = document.getElementById("novaPropostaTitulo").value;
             const novaPropostaDescricao = document.getElementById("novaPropostaDescricao").value;
             const novaPropostaData = document.getElementById("novaPropostaData").value;
@@ -301,25 +302,24 @@
                         <div class="input-group" id="myDiv">
                             <h2 style="color: white">Inserir nova promessa/proposta: </h2>
                             <div class="col-md-12">
-                            <p>Título: </p> <br>
-                            <input type="text" placeholder="Titulo" class="form-control" id="novaPropostaTitulo"/> <br>
+                                <form onsubmit="handleClick(event)">
+                                    <div class="col-md-12">
+                                        <p>Título:</p>
+                                        <input required type="text" placeholder="Titulo" class="form-control" id="novaPropostaTitulo" name="titulo">
+                                    </div>
+                                    <div class="col-md-12">
+                                        <p>Descrição:</p>
+                                        <input required type="text" placeholder="Descrição" class="form-control" id="novaPropostaDescricao" name="descricao">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p>Data:</p>
+                                        <input required type="date" placeholder="Data" class="form-control" id="novaPropostaData" name="data">
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Inserir nova promessa/proposta</button>
+                                </form>
+
+
                             </div>
-                            <div class="col-md-12">
-
-                            <p>Descrição: </p> <br>
-                            <input type="text" placeholder="Descrição" class="form-control" id="novaPropostaDescricao"/> <br>
-                            </div>
-                            <div class="col-md-6">
-
-                            <p>Data: </p> <br>
-                            <input type="date" placeholder="Data" class="form-control" id="novaPropostaData"/> <br>
-                            </div>
-
-
-
-                            <button onclick="handleClick()" class="btn btn-success">Inserir nova promessa/proposta</button>
-
-                        </div>
 
 
                     </div>

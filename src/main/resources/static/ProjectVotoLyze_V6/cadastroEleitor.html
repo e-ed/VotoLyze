@@ -1,275 +1,304 @@
 <!DOCTYPE html>
 <html lang="en">
 
-    <head>
-        <script>
-            function handleSubmit(e) {
+<head>
+    <script>
+        function handleSubmit(e) {
 
-                const emailInput = document.getElementById('email').value;
-                const passwordInput = document.getElementById('password').value;
-                const CPF = document.getElementById('CPF').value;
-                const sexo = document.querySelector('input[name="gender"]:checked').value;
-                const dataNascimento = document.getElementById('dataNascimento').value;
-                const nome = document.getElementById('nome').value;
+            const emailInput = document.getElementById('email').value;
+            const passwordInput = document.getElementById('password').value;
 
 
 
-                const data = {
-                    "login": emailInput,
-                    "password": passwordInput,
-                    "CPF": CPF,
-                    "sexo": sexo,
-                    "dataNascimento": dataNascimento,
-                    "nome": nome
-                };
+            const regexPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-!@#$%^&*()_+={}\[\]:;,<.>/?]).{6,}$/;
 
-                fetch('/auth/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            return response.json();
-                        }
-                        throw new Error('Network response was not ok.');
-                    })
-                    .then(data => {
-                        console.log(data)
-                        window.alert('Cadastro realizado com sucesso!');
-                        window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
-                    })
-                    .catch(error => {
-                        console.error('There was a problem registering the user:', error);
-                    });
 
+            console.log(passwordInput);
+
+            console.log(regexPattern.test(passwordInput))
+
+            if (!regexPattern.test(passwordInput)) {
+                event.preventDefault();
+                alert('Senha inválida!');
+                const passwordInfo = document.getElementById('password-info');
+                passwordInfo.textContent = 'Senha deve ter no mínimo: 6 caracteres, 1 letra maiúscula, uma letra minúscula e um caractere especial.';
+                passwordInfo.style.color = 'red';
+                return;
+            } else {
+                const passwordInfo = document.getElementById('password-info');
+                passwordInfo.textContent = 'Senha válida.';
+                passwordInfo.style.color = 'green';
             }
-        </script>
-        
-        <meta charset="utf-8">
-        <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-        <title>VotoLyze</title>
-        <meta content="" name="description">
-        <meta content="" name="keywords">
-
-        <!-- Favicons -->
-        <link href="assets/img/logo.jpg" rel="icon">
-        <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-        <!-- Google Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-
-        <!-- Vendor CSS Files -->
-        <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-        <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-        <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-        <link href="assets/vendor/aos/aos.css" rel="stylesheet">
-
-        <!-- Template Main CSS File -->
-        <link href="assets/css/main.css" rel="stylesheet">
-
-
-    </head>
-
-    <body>
-
-        <!-- ======= Header ======= -->
-        <header id="header" class="header d-flex align-items-center fixed-top">
-            <div class="container-fluid d-flex align-items-center justify-content-between">
-
-                <a href="index.html" class="logo d-flex align-items-center  me-auto me-lg-0">
-                    <!-- Uncomment the line below if you also wish to use an image logo -->
-                    <img src="assets/img/logomenu.png" alt="" width="40px">
-                    <!-- <i class="bi bi-camera"></i> -->
-                    <h1>VotoLyze</h1>
-                </a>
 
 
 
+            const CPF = document.getElementById('CPF').value;
+            const sexo = document.querySelector('input[name="gender"]:checked').value;
+            const dataNascimento = document.getElementById('dataNascimento').value;
+            const nome = document.getElementById('nome').value;
 
-                <nav id="navbar" class="navbar">
+
+            const data = {
+                "login": emailInput,
+                "password": passwordInput,
+                "CPF": CPF,
+                "sexo": sexo,
+                "dataNascimento": dataNascimento,
+                "nome": nome
+            };
+
+            fetch('/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    }
+                    throw new Error('Network response was not ok.');
+                })
+                .then(data => {
+                    console.log(data)
+                    window.alert('Cadastro realizado com sucesso!');
+                    window.location.replace("http://localhost:8080/ProjectVotoLyze_V6/index.html");
+                })
+                .catch(error => {
+                    console.error('There was a problem registering the user:', error);
+                });
+
+        }
+    </script>
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>VotoLyze</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="assets/img/logo.jpg" rel="icon">
+    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Cardo:ital,wght@0,400;0,700;1,400&display=swap"
+          rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="assets/css/main.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+<!-- ======= Header ======= -->
+<header id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+
+        <a href="index.html" class="logo d-flex align-items-center  me-auto me-lg-0">
+            <!-- Uncomment the line below if you also wish to use an image logo -->
+            <img src="assets/img/logomenu.png" alt="" width="40px">
+            <!-- <i class="bi bi-camera"></i> -->
+            <h1>VotoLyze</h1>
+        </a>
+
+
+        <nav id="navbar" class="navbar">
+            <ul>
+                <li><a href="index.html" class="active">Início</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="prefeitos.html">Prefeitos</a></li>
+                <li><a href="vereadores.html">Vereadores</a></li>
+                <li class="dropdown"><a href="#"><span>Cadastro</span> <i
+                        class="bi bi-chevron-down dropdown-indicator"></i></a>
                     <ul>
-                        <li><a href="index.html" class="active">Início</a></li>
-                        <li><a href="sobre.html">Sobre</a></li>
-                        <li><a href="prefeitos.html">Prefeitos</a></li> 
-                        <li><a href="vereadores.html">Vereadores</a></li>
-                        <li class="dropdown"><a href="#"><span>Cadastro</span> <i class="bi bi-chevron-down dropdown-indicator"></i></a>
-                            <ul>
-                                <li><a href="cadastroEleitor.html">Cadastro Eleitor</a></li>
-                                <li><a href="cadastroPolitico.html">Cadastro Político</a></li>
-                            </ul>
-                        <li id="loginLink"></li>
+                        <li><a href="cadastroEleitor.html">Cadastro Eleitor</a></li>
+                        <li><a href="cadastroPolitico.html">Cadastro Político</a></li>
                     </ul>
-                </nav><!-- .navbar -->
+                <li id="loginLink"></li>
+            </ul>
+        </nav><!-- .navbar -->
 
-                <div class="header-social-links">
-                    <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-                    <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+        <div class="header-social-links">
+            <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+        </div>
+        <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
+        <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
+
+    </div>
+</header><!-- End Header -->
+
+
+<main id="main" data-aos="fade" data-aos-delay="1500">
+
+    <!-- ======= End Page Header ======= -->
+    <div class="page-header d-flex align-items-center">
+        <div class="container position-relative">
+            <div class="row d-flex justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h2>Cadastro Eleitor</h2>
+                    <p>Se cadastre para poder visualizar e comentar sobre as propostas e projetos dos políticos</p>
+
                 </div>
-                <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
-                <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-
             </div>
-        </header><!-- End Header -->
+        </div>
+    </div><!-- End Page Header -->
 
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+        <div class="container">
 
-        <main id="main" data-aos="fade" data-aos-delay="1500">
+            <div class="row gy-4 justify-content-center">
 
-            <!-- ======= End Page Header ======= -->
-            <div class="page-header d-flex align-items-center">
-                <div class="container position-relative">
-                    <div class="row d-flex justify-content-center">
-                        <div class="col-lg-6 text-center">
-                            <h2>Cadastro Eleitor</h2>
-                            <p>Se cadastre para poder visualizar e comentar sobre as propostas e projetos dos políticos</p>
+                <!-- <div class="col-lg-3">
+                   <div class="info-item d-flex">
+                     <i class="bi bi-geo-alt flex-shrink-0"></i>
+                     <div>
+                       <h4>Location:</h4>
+                       <p>A108 Adam Street, New York, NY 535022</p>
+                     </div>
+                   </div>
+                 </div> End Info Item -->
 
+                <div class="col-lg-3">
+                    <div class="info-item d-flex">
+                        <i class="bi bi-star-fill flex-shrink-0"></i>
+                        <div>
+                            <h4>Importante:</h4>
+                            <p>Preencha todos os campos para realizar o cadastro</p>
                         </div>
                     </div>
-                </div>
-            </div><!-- End Page Header -->
+                </div><!-- End Info Item -->
 
-            <!-- ======= Contact Section ======= -->
-            <section id="contact" class="contact">
-                <div class="container">
-
-                    <div class="row gy-4 justify-content-center">
-
-                        <!-- <div class="col-lg-3">
-                           <div class="info-item d-flex">
-                             <i class="bi bi-geo-alt flex-shrink-0"></i>
-                             <div>
-                               <h4>Location:</h4>
-                               <p>A108 Adam Street, New York, NY 535022</p>
-                             </div>
-                           </div>
-                         </div> End Info Item -->
-
-                        <div class="col-lg-3">
-                            <div class="info-item d-flex">
-                                <i class="bi bi-star-fill flex-shrink-0"></i>
-                                <div>
-                                    <h4>Importante:</h4>
-                                    <p>Preencha todos os campos para realizar o cadastro</p>
-                                </div>
-                            </div>
-                        </div><!-- End Info Item -->
-
-                        <div class="col-lg-3">
-                            <div class="info-item d-flex">
-                                <i class="bi bi-envelope flex-shrink-0"></i>
-                                <div>
-                                    <h4>Email:</h4>
-                                    <p>exemplo@email.com</p>
-                                </div>
-                            </div>
-                        </div><!-- End Info Item -->
-
+                <div class="col-lg-3">
+                    <div class="info-item d-flex">
+                        <i class="bi bi-envelope flex-shrink-0"></i>
+                        <div>
+                            <h4>Email:</h4>
+                            <p>exemplo@email.com</p>
+                        </div>
                     </div>
+                </div><!-- End Info Item -->
 
-                    <div class="row justify-content-center mt-4">
-
-                        <div  class="cad1">
-                            <form role="form" class="php-email-form" >
-                                <div class="campo1">
-                                    <div class="col-md-6 form-group">
-                                        <p>Nome: </p>
-                                        <input type="text" name="nome" class="form-control" id="nome" placeholder="Seu Nome" required>
-                                    </div>
-                                    <div class="col-md-6 form-group mt-3 mt-md-0">
-                                        <p>Email: </p>
-                                        <input type="email" class="form-control" name="login" id="email" placeholder="Seu Email" required>
-                                    </div>
-                                </div>
-                                <div class="campo1">
-                                    <div class="col-md-6 form-group">
-                                        <p>Senha: </p>
-                                        <input type="password" class="form-control" name="password" id="password" placeholder="Sua Senha" required>
-                                    </div>
-                                    <div class="col-md-6 form-group mt-3 mt-md-0">
-                                        <p>Data de Nascimento: </p>
-                                        <input type="date" class="form-control" name="dataNascimento" id="dataNascimento" required>
-                                    </div>
-                                </div>
-
-                                <div class="campo1">
-                                    <div class="col-md-6 analises">
-                                        <p>Sexo:</p>
-                                        <label for="male">Masculino:</label>
-                                        <input type="radio" id="male" name="gender" value="male">
-                                        <br>
-                                        <label for="female">Feminino:</label>
-                                        <input type="radio" id="female" name="gender" value="female">
-                                        <br>
-
-
-                                        <p>CPF </p>
-                                        <input type="text" class="form-control" name="CPF" id="CPF" placeholder="111.111.111-11" required>
-
-                                        <div class="btn-cad">
-                                            <div class="text-center">
-                                                <button onclick="handleSubmit(event)" type="submit" >
-                                                    Cadastrar
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-
-
-                                    <div class="my-3">
-                                        <div class="loading">Um momento...</div>
-                                        <div class="error-message"></div>
-                                        <div class="sent-message">Cadastro efetuado com sucesso!</div>
-                                    </div>
-
-                            </form>
-                        </div><!-- End Contact Form -->
-
-                    </div>
-
-                </div>
-            </section><!-- End Contact Section -->
-
-        </main><!-- End #main -->
-
-        <!-- ======= Footer ======= -->
-        <footer id="footer" class="footer">
-            <div class="container">
-                <div class="copyright">
-                    &copy; Copyright <strong><span>VotoLyze</span></strong>. Todos os direitos reservados.
-                </div>
-                <div class="credits">
-                    Orgulhosamente desenvolvido por <a href="sobre.html">Byte Builders</a>
-                </div>
             </div>
-        </footer><!-- End Footer -->
 
-        <a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+            <div class="row justify-content-center mt-4">
 
-        <div id="preloader">
-            <div class="line"></div>
+                <div class="cad1">
+                    <form role="form" class="php-email-form">
+                        <div class="campo1">
+                            <div class="col-md-6 form-group">
+                                <p>Nome: </p>
+                                <input type="text" name="nome" class="form-control" id="nome" placeholder="Seu Nome"
+                                       required>
+                            </div>
+                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                <p>Email: </p>
+                                <input type="email" class="form-control" name="login" id="email" placeholder="Seu Email"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="campo1">
+                            <div class="col-md-6 form-group">
+                                <p>Senha: </p>
+                                <span id="password-info" class="password-info"></span>
+                                <input
+                                       type="password" class="form-control" name="password" id="password"
+                                       placeholder="Sua Senha" required>
+                            </div>
+                            <div class="col-md-6 form-group mt-3 mt-md-0">
+                                <p>Data de Nascimento: </p>
+                                <input type="date" class="form-control" name="dataNascimento" id="dataNascimento"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div class="campo1">
+                            <div class="col-md-6 analises">
+                                <p>Sexo:</p>
+                                <label for="male">Masculino:</label>
+                                <input type="radio" id="male" name="gender" value="male">
+                                <br>
+                                <label for="female">Feminino:</label>
+                                <input type="radio" id="female" name="gender" value="female">
+                                <br>
+
+
+                                <p>CPF </p>
+                                <input type="text" class="form-control" name="CPF" id="CPF" placeholder="111.111.111-11"
+                                       required>
+
+                                <div class="btn-cad">
+                                    <div class="text-center">
+                                        <button onclick="handleSubmit(event)" type="submit">
+                                            Cadastrar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="my-3">
+                                <div class="loading">Um momento...</div>
+                                <div class="error-message"></div>
+                                <div class="sent-message">Cadastro efetuado com sucesso!</div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div><!-- End Contact Form -->
+
+            </div>
+
         </div>
+    </section><!-- End Contact Section -->
 
-        <!-- Vendor JS Files -->
-        <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-        <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
-        <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
-        <script src="assets/vendor/aos/aos.js"></script>
-        <script src="assets/vendor/php-email-form/validate.js"></script>
+</main><!-- End #main -->
 
-        <!-- Template Main JS File -->
-        <script src="assets/js/main.js"></script>
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong><span>VotoLyze</span></strong>. Todos os direitos reservados.
+        </div>
+        <div class="credits">
+            Orgulhosamente desenvolvido por <a href="sobre.html">Byte Builders</a>
+        </div>
+    </div>
+</footer><!-- End Footer -->
 
-    </body>
+<a href="#" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<div id="preloader">
+    <div class="line"></div>
+</div>
+
+<!-- Vendor JS Files -->
+<script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="assets/vendor/aos/aos.js"></script>
+<script src="assets/vendor/php-email-form/validate.js"></script>
+
+<!-- Template Main JS File -->
+<script src="assets/js/main.js"></script>
+
+</body>
 
 </html>

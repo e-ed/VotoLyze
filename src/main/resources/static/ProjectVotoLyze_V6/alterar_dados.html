@@ -14,12 +14,13 @@
                     data.forEach(item => {
                         const option = document.createElement('option');
                         option.value = item.id; // Assuming 'id' is a property in your data
-                        option.textContent = item.nome + ' - ' +  item.sigla; // Change 'name' to the property you want to display
+                        option.textContent = item.nome + ' - ' + item.sigla; // Change 'name' to the property you want to display
                         select.appendChild(option);
                     });
                 })
                 .catch(error => console.error('Error fetching data:', error));
         }
+
         let fetchUrl;
         const tipoUsuario = localStorage['tipoUsuario'];
 
@@ -96,7 +97,6 @@
                     CPF.value = `${data.cpf}`
 
 
-
                 })
                 .catch(error => {
                     console.error('There was a problem with the fetch operation:', error);
@@ -136,8 +136,6 @@
                 }
 
 
-
-
             }
 
 
@@ -172,7 +170,7 @@
 
                 let updatedUserData;
 
-                if(tipoUsuario === 'eleitor') {
+                if (tipoUsuario === 'eleitor') {
                     updatedUserData = {
                         "login": emailInput,
                         "CPF": CPF,
@@ -400,10 +398,10 @@
                             <form id="myForm">
 
                                 <ul>
-                                    <li><i class="bi bi-chevron-right"></i> <strong>Nome: </strong> <input
-                                            class="form-control"
-                                            type="text"
-                                            id="nome"/>
+                                    <li><i class="bi bi-chevron-right"></i> <strong>Nome: </strong> <input required
+                                                                                                           class="form-control"
+                                                                                                           type="text"
+                                                                                                           id="nome"/>
                                     </li>
 
                                     <li>
@@ -413,7 +411,7 @@
                                         <ul>
                                             <li>
                                                 <label for="male">Masculino:</label>
-                                                <input type="radio" id="male" name="gender" value="male">
+                                                <input required type="radio" id="male" name="gender" value="male">
                                             </li>
                                             <li>
                                                 <label for="female">Feminino:</label>
@@ -422,14 +420,15 @@
                                         </ul>
                                     </li>
                                     <li><i class="bi bi-chevron-right"></i> <strong>Data de nascimento:</strong> <input
+                                            required
 
                                             class="form-control" type="date" id="dataNascimento" value=""/></li>
-                                    <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <input
+                                    <li><i class="bi bi-chevron-right"></i> <strong>E-mail:</strong> <input required
                                             class="form-control"
                                             id="emailInput"
                                             value=""/>
                                     </li>
-                                    <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input
+                                    <li><i class="bi bi-chevron-right"></i> <strong>CPF:</strong> <input required
                                             class="form-control"
                                             id="CPF"
                                             value=""/></li>
@@ -450,18 +449,20 @@
                                         </ul>
                                     </li>
 
-                                    <li id="secondHiddenInput" disabled style="visibility: hidden; display: none"> <i class="bi bi-chevron-right"></i> <strong>Início de mandato: </strong>
+                                    <li id="secondHiddenInput" disabled style="visibility: hidden; display: none"><i
+                                            class="bi bi-chevron-right"></i> <strong>Início de mandato: </strong>
 
                                         <input type="date" class="form-control" name="inicioMandato" id="inicioMandato">
                                     </li>
 
 
-                                <li id="thirdHiddenInput" disabled style="visibility: hidden; display: none"> <i class="bi bi-chevron-right"></i> <strong>Partido:</strong>
+                                    <li id="thirdHiddenInput" disabled style="visibility: hidden; display: none"><i
+                                            class="bi bi-chevron-right"></i> <strong>Partido:</strong>
 
-                                    <select class="form-select" id="mySelect" name="partido">
+                                        <select class="form-select" id="mySelect" name="partido">
 
-                                    </select>
-                                </li>
+                                        </select>
+                                    </li>
 
                                     <button type="submit" class="btn btn-enviar btn-lg">Enviar</button>
 

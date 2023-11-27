@@ -48,6 +48,24 @@
 
       const emailInput = document.getElementById('email').value;
       const passwordInput = document.getElementById('password').value;
+
+      const regexPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[-!@#$%^&*()_+={}\[\]:;,<.>/?]).{6,}$/;
+
+
+      if (!regexPattern.test(passwordInput)) {
+        event.preventDefault();
+        alert('Senha inválida!');
+        const passwordInfo = document.getElementById('password-info');
+        passwordInfo.textContent = 'Senha deve ter no mínimo: 6 caracteres, 1 letra maiúscula, uma letra minúscula e um caractere especial.';
+        passwordInfo.style.color = 'red';
+        return;
+      } else {
+        const passwordInfo = document.getElementById('password-info');
+        passwordInfo.textContent = 'Senha válida.';
+        passwordInfo.style.color = 'green';
+      }
+
+
       const CPF = document.getElementById('CPF').value;
       const sexo = document.querySelector('input[name="gender"]:checked').value;
       const dataNascimento = document.getElementById('dataNascimento').value;
@@ -260,6 +278,7 @@
               <div class="row">
                 <div class="col-md-6 form-group">
                   <p>Senha: </p>
+                  <span id="password-info" class="password-info"></span>
                   <input type="password" class="form-control" name="password" id="password" placeholder="Sua Senha" required>
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
